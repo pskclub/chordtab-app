@@ -1,6 +1,6 @@
-# chrodtab
+# chordtab
 
-Chrodtab
+chordtab
 
 ## Getting Started
 
