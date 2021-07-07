@@ -35,7 +35,6 @@ class Status {
 
 class ChordRepository with ChangeNotifier {
   ChordTileListModel meta = ChordTileListModel.init();
-
   Status fetchStatus = Status();
 
   Future<void> fetch() async {
@@ -52,7 +51,6 @@ class ChordRepository with ChangeNotifier {
       fetchStatus.setSuccess();
       notifyListeners();
     } on DioError catch (e) {
-      print(e.response?.statusCode);
       fetchStatus.setError();
       notifyListeners();
     }
