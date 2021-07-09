@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Provider.of<ChordRepository>(context, listen: false).fetch();
+      Provider.of<ChordRepository>(context, listen: false ).fetch("รักแรกพบ");
     });
   }
 
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
               items: chordRepo.meta.items,
               onClick: (item) {
                 print("item : ${item.title}");
-                chordRepo.fetch();
+                chordRepo.fetch("ขี้หึง");
               },
               onActionClick: (item) {
                 print("action : ${item.title}");

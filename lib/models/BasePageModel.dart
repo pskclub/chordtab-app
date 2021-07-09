@@ -2,7 +2,7 @@ class BasePageModel<T> {
   final int limit;
   final int page;
   final int total;
-  final List<T> items;
+  List<T> items;
 
   BasePageModel(this.limit, this.page, this.total, this.items);
 
