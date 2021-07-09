@@ -9,7 +9,7 @@ class RequesterOptions {
 }
 
 class Requester {
-  static Future<Response> get(String url, RequesterOptions? options) async {
+  static Future<Response> get({required String url, RequesterOptions? options}) async {
     try {
       final response = await Dio(BaseOptions(
               headers: options?.headers,

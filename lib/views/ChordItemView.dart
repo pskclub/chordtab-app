@@ -25,7 +25,7 @@ class ChordItemView extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             image: DecorationImage(
-              image: NetworkImage(item.image),
+              image: NetworkImage(item.cover),
               fit: BoxFit.cover,
             ),
           ),
