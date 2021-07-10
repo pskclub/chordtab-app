@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
     AppUseCase appRepo = Provider.of<AppUseCase>(context);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ChordTab',
       theme: ThemeData(
         primaryColor: THEME.shade500,
