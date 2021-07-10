@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:chordtab/constants/config.const.dart';
 import 'package:chordtab/core/Requester.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 
 class ChordRepository {
-  final String baseAPI = configBaseAPI;
+  final String baseGoogleAPI = "https://www.google.co.th";
+  final String baseUserAgent =
+      "'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'";
 
   Future<ChordTileItemModel> find(ChordTileItemModel chord) async {
     try {
@@ -29,15 +30,15 @@ class ChordRepository {
     try {
       var request = await Future.wait([
         Requester.get("/search?q=คอร์ด $q site:chordtabs.in.th",
-            options: RequesterOptions(cancelToken: cancelToken, baseUrl: "https://www.google.co.th", headers: {
-              HttpHeaders.userAgentHeader:
-                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
-            })),
+            options: RequesterOptions(
+                cancelToken: cancelToken,
+                baseUrl: baseGoogleAPI,
+                headers: {HttpHeaders.userAgentHeader: baseUserAgent})),
         Requester.get("/search?q=คอร์ด $q site:dochord.com",
-            options: RequesterOptions(cancelToken: cancelToken, baseUrl: "https://www.google.co.th", headers: {
-              HttpHeaders.userAgentHeader:
-                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
-            })),
+            options: RequesterOptions(
+                cancelToken: cancelToken,
+                baseUrl: baseGoogleAPI,
+                headers: {HttpHeaders.userAgentHeader: baseUserAgent})),
       ]);
 
       var chordTabRequest = request[0];
