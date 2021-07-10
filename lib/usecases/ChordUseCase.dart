@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:chordtab/core/Requester.dart';
 import 'package:chordtab/core/Status.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:chordtab/repositories/ChordRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 class ChordUseCase with ChangeNotifier {
   ChordRepository chordRepo = ChordRepository();
@@ -11,7 +15,9 @@ class ChordUseCase with ChangeNotifier {
   CancelToken? _searchCancelToken;
 
   ChordTileItemModel? findMeta;
+  String findDoChordMeta = '';
   Status findStatus = Status();
+  Status findDoChordStatus = Status();
 
   Status getSearchStatus(String key) {
     if (!_searchStatus.containsKey(key)) {
@@ -57,6 +63,21 @@ class ChordUseCase with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       findStatus.setError(e);
+      notifyListeners();
+    }
+  }
+
+  Future<void> findDoChord(ChordTileItemModel chord) async {
+    findDoChordStatus.setLoading();
+    notifyListeners();
+    try {
+      var res = await Requester.get(chord.link);
+      String html = await rootBundle.loadString('assets/do-chord.html');
+      findDoChordMeta = html + res.toString();
+      findDoChordStatus.setSuccess();
+      notifyListeners();
+    } on DioError catch (e) {
+      findDoChordStatus.setError(e);
       notifyListeners();
     }
   }

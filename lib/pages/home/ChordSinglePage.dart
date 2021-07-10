@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
@@ -7,6 +9,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class ChordSinglePage extends StatefulWidget {
   final ChordTileItemModel chordModel;
@@ -19,14 +23,21 @@ class ChordSinglePage extends StatefulWidget {
 
 class _ChordSinglePageState extends State<ChordSinglePage> {
   final ChordTileItemModel chordModel;
+  WebViewPlusController? _controller;
 
   _ChordSinglePageState({required this.chordModel});
 
   @override
   void initState() {
     super.initState();
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Provider.of<ChordUseCase>(context, listen: false).find(chordModel);
+      var chordUseCase = Provider.of<ChordUseCase>(context, listen: false);
+      if (chordModel.type == ChordItemType.chordTab) {
+        chordUseCase.find(chordModel);
+      } else {
+        chordUseCase.findDoChord(chordModel);
+      }
     });
   }
 
@@ -37,6 +48,10 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   }
 
   buildBody(ChordUseCase chord) {
+    return chordModel.type == ChordItemType.chordTab ? _buildChordTab(chord) : _buildDoChord(chord);
+  }
+
+  _buildChordTab(ChordUseCase chord) {
     return StatusWrapper(
         status: chord.findStatus,
         body: Center(
@@ -49,6 +64,27 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             loadStateChanged: buildLoadState,
           )),
         ),
+        loading: Center(child: CircularProgressIndicator(color: COLOR_INFO)));
+  }
+
+  _buildDoChord(ChordUseCase chord) {
+    return StatusWrapper(
+        body: WebViewPlus(
+          initialUrl: chordModel.link,
+          onWebViewCreated: (controller) {
+            _controller = controller;
+          },
+          onPageFinished: (url) {
+            if (_controller != null) {
+              _controller!.webViewController
+                  .evaluateJavascript('''
+                  document.body.innerHTML = document.querySelector('#chord-img').outerHTML;
+                  ''');
+            }
+          },
+          javascriptMode: JavascriptMode.unrestricted,
+        ),
+        status: chord.findDoChordStatus,
         loading: Center(child: CircularProgressIndicator(color: COLOR_INFO)));
   }
 
