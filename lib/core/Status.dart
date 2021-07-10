@@ -1,9 +1,13 @@
-class IStatus {
-  bool isSuccess = false;
-  bool isError = false;
-  bool isLoading = false;
-  bool isLoaded = false;
-  Exception? errorData;
+abstract class IStatus {
+  bool get isSuccess;
+
+  bool get isError;
+
+  bool get isLoading;
+
+  bool get isLoaded;
+
+  Exception? get errorData;
 }
 
 class Status<T> implements IStatus {
