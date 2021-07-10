@@ -22,12 +22,19 @@ class _SearchPageState extends State<SearchPage> {
 
   final String pageKey = 'search';
   bool shouldPop = true;
+  bool isShowList = true;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       controller.open();
+    });
+  }
+
+  setShowListState(bool state) {
+    setState(() {
+      isShowList = state;
     });
   }
 
@@ -79,6 +86,13 @@ class _SearchPageState extends State<SearchPage> {
             showIfClosed: false,
           ),
         ],
+        body: isShowList
+            ? Padding(
+                padding: const EdgeInsets.only(top: 80, left: 8, right: 8),
+                child: ChordListView(items: chordRepo.getSearchItems(pageKey)),
+              )
+            : null,
+        onFocusChanged: (isFocused) => isFocused ? setShowListState(false) : setShowListState(true),
         builder: (context, transition) {
           return ChordListView(
             items: chordRepo.getSearchItems(pageKey),

@@ -73,6 +73,12 @@ class ChordRepository {
         }
       }
 
+      final titles = list.map((e) => e.title).toSet();
+      list.retainWhere((x) => titles.remove(x.title));
+
+      final links = list.map((e) => e.link).toSet();
+      list.retainWhere((x) => links.remove(x.link));
+
       return list;
     } on DioError catch (e) {
       throw e;
