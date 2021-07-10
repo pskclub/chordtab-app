@@ -24,6 +24,7 @@ class ChordSinglePage extends StatefulWidget {
 class _ChordSinglePageState extends State<ChordSinglePage> {
   final ChordTileItemModel chordModel;
   WebViewPlusController? _controller;
+  bool _webLoaded = false;
 
   _ChordSinglePageState({required this.chordModel});
 
@@ -35,8 +36,6 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
       var chordUseCase = Provider.of<ChordUseCase>(context, listen: false);
       if (chordModel.type == ChordItemType.chordTab) {
         chordUseCase.find(chordModel);
-      } else {
-        chordUseCase.findDoChord(chordModel);
       }
     });
   }
@@ -68,24 +67,65 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   }
 
   _buildDoChord(ChordUseCase chord) {
-    return StatusWrapper(
-        body: WebViewPlus(
-          initialUrl: chordModel.link,
-          onWebViewCreated: (controller) {
-            _controller = controller;
-          },
-          onPageFinished: (url) {
-            if (_controller != null) {
-              _controller!.webViewController
-                  .evaluateJavascript('''
-                  document.body.innerHTML = document.querySelector('#chord-img').outerHTML;
-                  ''');
-            }
-          },
-          javascriptMode: JavascriptMode.unrestricted,
-        ),
-        status: chord.findDoChordStatus,
-        loading: Center(child: CircularProgressIndicator(color: COLOR_INFO)));
+    return Visibility(
+      visible: _webLoaded,
+      maintainSize: true,
+      maintainAnimation: true,
+      maintainState: true,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _controller?.webViewController.evaluateJavascript('key_minus();');
+                  },
+                  child: const Text('ลดคีย์'),
+                ),
+                SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    _controller?.webViewController.evaluateJavascript('key_plus();');
+                  },
+                  child: const Text('เพิ่มคีย์'),
+                ),
+                SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    _controller?.webViewController.evaluateJavascript('key_original();');
+                  },
+                  child: const Text('คีย์เริ่มต้น'),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: WebViewPlus(
+              initialUrl: chordModel.link,
+              onWebViewCreated: (controller) {
+                _controller = controller;
+              },
+              onPageFinished: (url) {
+                _controller?.webViewController.evaluateJavascript('''                      
+                  document.querySelector('#page').innerHTML = document.querySelector('.row.main_chord').outerHTML;
+                  document.querySelector('.bt-fav-foot').remove();
+                  document.querySelector('.dk-fav').remove();
+                  document.querySelector('.div_scroll2').remove();
+                  document.head.insertAdjacentHTML("beforeend", `<style>.ats-overlay-bottom-wrapper-rendered { display: none !important; }</style>`);                           
+                         ''');
+                setState(() {
+                  _webLoaded = true;
+                });
+              },
+              javascriptMode: JavascriptMode.unrestricted,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget? buildLoadState(ExtendedImageState state) {
