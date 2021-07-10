@@ -117,8 +117,8 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                   document.head.insertAdjacentHTML("beforeend", `
                   <style>
                   .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
-                  .main_chord {padding-top :20px;}
-                  blockquote {background-color: transparent;padding: 0;}
+                  .main_chord {padding-top :10px;}
+                  blockquote {background-color: transparent !important;padding-top: 0 !important;padding-bottom: 10 !important;}
                   </style>`);                           
                          ''');
                 setState(() {

@@ -46,7 +46,18 @@ class ChordRepository {
       List<ChordTileItemModel> chordTabList = _buildChordList(chordTabRequest, ChordItemType.chordTab);
       List<ChordTileItemModel> doChordList = _buildChordList(doChordRequest, ChordItemType.doChord);
 
-      return [...chordTabList, ...doChordList];
+      List<ChordTileItemModel> finalList = [];
+      var length = chordTabList.length > doChordList.length ? chordTabList.length : doChordList.length;
+      for (var i = 0; i < length; i++) {
+        if (i + 1 <= chordTabList.length) {
+          finalList.add(chordTabList[i]);
+        }
+
+        if (i + 1 <= doChordList.length) {
+          finalList.add(doChordList[i]);
+        }
+      }
+      return finalList;
     } on DioError catch (e) {
       throw e;
     }
@@ -80,12 +91,22 @@ class ChordRepository {
               .replaceFirst("เพลง ", "")
               .replaceFirst(" - Chordtabs", "");
           if (link.contains("คอร์ดกีต้าร์")) {
-            list.add(ChordTileItemModel(title: title, cover: chordTabLogo, id: '1', image: '', link: link, type: type));
+            list.add(ChordTileItemModel(
+                title: title,
+                cover: chordTabLogo,
+                id: '1',
+                image: '',
+                link: link,
+                type: type,
+                description: 'ที่มา chordtabs.in.th'));
           }
         }
 
         if (type == ChordItemType.doChord) {
-          if (title.contains("คอร์ดเพลง") && !link.contains("artist") && link != 'https://www.dochord.com/') {
+          if (title.contains("คอร์ดเพลง") &&
+              !link.contains("artist") &&
+              !link.contains("album") &&
+              link != 'https://www.dochord.com/') {
             title = titleEle.text
                 .replaceFirst("คอร์ดเพลง ", "")
                 .replaceFirst("คอร์ด ", "")
@@ -94,7 +115,14 @@ class ChordRepository {
                 .replaceFirst("เพลง ", "")
                 .replaceFirst(" | dochord.com", "");
 
-            list.add(ChordTileItemModel(title: title, cover: doChordLogo, id: '1', image: '', link: link, type: type));
+            list.add(ChordTileItemModel(
+                title: title,
+                cover: doChordLogo,
+                id: '1',
+                image: '',
+                link: link,
+                type: type,
+                description: 'ที่มา dochord.com'));
           }
         }
       }
