@@ -17,6 +17,7 @@ class ChordListLoadingView extends StatelessWidget {
             SkeletonContainerView.circular(
               width: 40,
               height: 40,
+              borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             const SizedBox(width: 16),
             Column(
