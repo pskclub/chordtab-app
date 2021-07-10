@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:chordtab/constants/config.const.dart';
@@ -11,7 +12,7 @@ class ChordRepository {
 
   Future<ChordTileItemModel> find(ChordTileItemModel chord) async {
     try {
-      var response = await Requester.get(url: chord.link);
+      var response = await Requester.get(chord.link);
       var document = parse(response.toString());
       var ele = document.querySelector('amp-img[layout="responsive"]');
       if (ele != null) {
@@ -25,33 +26,18 @@ class ChordRepository {
     }
   }
 
-  Future<List<ChordTileItemModel>> search(String q) async {
+  Future<List<ChordTileItemModel>> search(String q, {CancelToken? cancelToken}) async {
     try {
-      var response = await Future.wait([
-        Requester.get(
-            url: "/search?q=คอร์ด $q site:chordtabs.in.th",
-            options: RequesterOptions(baseUrl: "https://www.google.co.th", headers: {
-              HttpHeaders.userAgentHeader:
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
-            })),
-        Requester.get(
-            url: "/search?q=รูปปก $q&tbm=isch",
-            options: RequesterOptions(baseUrl: "https://google.co.th", headers: {
-              HttpHeaders.userAgentHeader:
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
-            }))
-      ]);
+      var response = await  Requester.get("/search?q=คอร์ด $q site:chordtabs.in.th",
+          options: RequesterOptions(cancelToken: cancelToken, baseUrl: "https://www.google.co.th", headers: {
+            HttpHeaders.userAgentHeader:
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+          }));
 
-      var document = parse(response[0].toString());
+      var document = parse(response.toString());
       var res = document.getElementsByClassName('yuRUbf');
-      var cover = "https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-simple-green-logo-icon-24.png";
-      if (res.length > 0) {
-        document = parse(response[1].toString());
-        final elements = document.getElementsByClassName('t0fcAb');
-        if (Uri.parse(elements[0].attributes['src'].toString()).isAbsolute) {
-          cover = elements[0].attributes['src'].toString();
-        }
-      }
+      var cover = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR3jtkgSaeZa_v4dkRYWL0xgEH8JFsIxswfzLch3HKVIAJaE8bg02LFHCHt";
+
       List<ChordTileItemModel> list = [];
       for (var prop in res) {
         var linkEle = prop.querySelector('a');
