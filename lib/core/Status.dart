@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 abstract class IStatus {
   bool get isSuccess;
 
@@ -17,6 +19,7 @@ class BaseStatus implements IStatus {
   bool isLoaded = false;
   Exception? errorData;
 
+  @mustCallSuper
   setError(Exception e) {
     isSuccess = false;
     isError = true;
@@ -33,7 +36,7 @@ class BaseStatus implements IStatus {
   }
 }
 
-class Status<T> extends BaseStatus implements IStatus {
+class Status<T> extends BaseStatus {
   T? data;
 
   Status({this.data});
@@ -58,7 +61,7 @@ class Status<T> extends BaseStatus implements IStatus {
   }
 }
 
-class StatusList<T> extends BaseStatus implements IStatus {
+class StatusList<T> extends BaseStatus {
   List<T> items = [];
 
   setSuccess(List<T> items) {
