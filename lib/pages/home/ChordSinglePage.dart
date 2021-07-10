@@ -37,14 +37,16 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   buildBody(ChordUseCase chord) {
     return StatusWrapper(
         status: chord.findStatus,
-        body: SingleChildScrollView(
-            child: ExtendedImage.network(
-          chord.findMeta?.image ?? "",
-          width: double.infinity,
-          fit: BoxFit.fitWidth,
-          cache: false,
-          loadStateChanged: buildLoadState,
-        )),
+        body: Center(
+          child: SingleChildScrollView(
+              child: ExtendedImage.network(
+            chord.findMeta?.image ?? "",
+            width: double.infinity,
+            fit: BoxFit.fitWidth,
+            cache: false,
+            loadStateChanged: buildLoadState,
+          )),
+        ),
         loading: Text("loading..."));
   }
 
