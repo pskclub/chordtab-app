@@ -33,6 +33,7 @@ dependencies:
   html: ^0.15.0
   material_floating_search_bar: ^0.3.4
   extended_image: ^4.1.0
+  skeleton_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

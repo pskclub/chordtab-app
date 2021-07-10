@@ -34,7 +34,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   }
 
   buildBody(ChordUseCase chord) {
-    return chord.findStatus.isLoading
+    return chord.findStatus.isLoading || !chord.findStatus.isSuccess
         ? Text("loading...")
         : SingleChildScrollView(
             child: ExtendedImage.network(
