@@ -26,8 +26,7 @@ class ChordUseCase with ChangeNotifier {
     notifyListeners();
     try {
       _searchCancelToken = CancelToken();
-      var data = await chordRepo.search(q, cancelToken: _searchCancelToken);
-      getSearchResult(key).setSuccess(data);
+      getSearchResult(key).setSuccess(await chordRepo.search(q, cancelToken: _searchCancelToken));
       notifyListeners();
     } on DioError catch (e) {
       if (!CancelToken.isCancel(e)) {
@@ -41,8 +40,7 @@ class ChordUseCase with ChangeNotifier {
     findResult.setLoading();
     notifyListeners();
     try {
-      var findItem = await chordRepo.find(chord);
-      findResult.setSuccess(findItem);
+      findResult.setSuccess(await chordRepo.find(chord));
       notifyListeners();
     } on DioError catch (e) {
       findResult.setError(e);
