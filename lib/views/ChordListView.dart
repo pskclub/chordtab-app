@@ -13,7 +13,6 @@ class ChordListView extends StatelessWidget {
     return ChordItemView(
       item: items[index],
       onItemClick: (item) {
-        print(item.link);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ChordSinglePage(chordModel: item)),

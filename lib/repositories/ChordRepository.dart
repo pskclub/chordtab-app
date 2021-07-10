@@ -54,9 +54,21 @@ class ChordRepository {
         var linkEle = prop.querySelector('a');
         var titleEle = prop.querySelector('.LC20lb');
         if (linkEle != null && titleEle != null) {
-          var link = Uri.decodeFull(linkEle.attributes['href'].toString()).replaceFirst("คอร์ดเพลง", "คอร์ดกีต้าร์");
+          var link = Uri.decodeFull(linkEle.attributes['href'].toString())
+              .replaceFirst("คอร์ดเพลง", "คอร์ดกีต้าร์")
+              .replaceFirst("เนื้อเพลง", "คอร์ดกีต้าร์")
+              .replaceFirst("ฟังเพลง", "คอร์ดกีต้าร์")
+              .replaceFirst("เพลง", "คอร์ดกีต้าร์");
+          var title = titleEle.text
+              .replaceFirst("คอร์ดเพลง ", "")
+              .replaceFirst("คอร์ด ", "")
+              .replaceFirst("คอร์ดกีต้าร์ ", "")
+              .replaceFirst("เนื้อเพลง ", "")
+              .replaceFirst("เพลง ", "")
+              .replaceFirst(" - Chordtabs", "");
+
           if (link.contains("คอร์ดกีต้าร์")) {
-            list.add(ChordTileItemModel(title: titleEle.text, cover: cover, id: '1', image: '', link: link));
+            list.add(ChordTileItemModel(title: title, cover: cover, id: '1', image: '', link: link));
           }
         }
       }

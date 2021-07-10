@@ -18,8 +18,18 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final controller = FloatingSearchBarController();
+
   final String pageKey = 'search';
   bool shouldPop = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller.open();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +37,6 @@ class _SearchPageState extends State<SearchPage> {
     AppRepository appRepo = Provider.of<AppRepository>(context);
     return WillPopScope(
         onWillPop: () async {
-          print(BOTTOM_NAVBAR.Search.index);
           appRepo.changeTab(BOTTOM_NAVBAR.Home.index);
           return false;
         },
@@ -37,43 +46,43 @@ class _SearchPageState extends State<SearchPage> {
 
   FloatingSearchBar buildFloatingSearchBar(ChordUseCase chordRepo) {
     return FloatingSearchBar(
-      margins: EdgeInsets.only(top: AppBar().preferredSize.height, left: 16, right: 16),
-      progress: chordRepo.getSearchStatus(pageKey).isLoading,
-      automaticallyImplyBackButton: false,
-      transitionCurve: Curves.easeInOutCubic,
-      transition: CircularFloatingSearchBarTransition(),
-      physics: const BouncingScrollPhysics(),
-      accentColor: COLOR_INFO,
-      backdropColor: Colors.transparent,
-      queryStyle: TextStyle(color: THEME.shade500),
-      hintStyle: TextStyle(color: Colors.grey),
-      backgroundColor: Colors.white,
-      iconColor: Colors.grey,
-      scrollPadding: EdgeInsets.zero,
-      hint: 'ค้นหาคอร์ด...',
-      debounceDelay: const Duration(milliseconds: 500),
-      onQueryChanged: (query) {
-        if (query.isNotEmpty) {
-          chordRepo.search(pageKey, query);
-        }
-      },
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
+        controller: controller,
+        margins: EdgeInsets.only(top: AppBar().preferredSize.height, left: 16, right: 16),
+        progress: chordRepo.getSearchStatus(pageKey).isLoading,
+        automaticallyImplyBackButton: false,
+        transitionCurve: Curves.easeInOutCubic,
+        transition: CircularFloatingSearchBarTransition(),
+        physics: const BouncingScrollPhysics(),
+        accentColor: COLOR_INFO,
+        backdropColor: Colors.transparent,
+        queryStyle: TextStyle(color: THEME.shade500),
+        hintStyle: TextStyle(color: Colors.grey),
+        backgroundColor: Colors.white,
+        iconColor: Colors.grey,
+        scrollPadding: EdgeInsets.zero,
+        hint: 'ค้นหาคอร์ด...',
+        debounceDelay: const Duration(milliseconds: 500),
+        onQueryChanged: (query) {
+          if (query.isNotEmpty) {
+            chordRepo.search(pageKey, query);
+          }
+        },
+        actions: [
+          FloatingSearchBarAction(
+            showIfOpened: false,
+            child: CircularButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
           ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ChordListView(
-          items: chordRepo.getSearchItems(pageKey),
-        );
-      },
-    );
+          FloatingSearchBarAction.searchToClear(
+            showIfClosed: false,
+          ),
+        ],
+        builder: (context, transition) {
+          return ChordListView(
+            items: chordRepo.getSearchItems(pageKey),
+          );
+        });
   }
 }
