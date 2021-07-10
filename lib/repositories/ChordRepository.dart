@@ -27,23 +27,32 @@ class ChordRepository {
 
   Future<List<ChordTileItemModel>> search(String q) async {
     try {
-      var response = await Requester.get(
+      var response = await Future.wait([
+        Requester.get(
+            url: "/search?q=คอร์ด $q site:chordtabs.in.th",
+            options: RequesterOptions(baseUrl: "https://www.google.co.th", headers: {
+              HttpHeaders.userAgentHeader:
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+            })),
+        Requester.get(
+            url: "/search?q=รูปปก $q&tbm=isch",
+            options: RequesterOptions(baseUrl: "https://google.co.th", headers: {
+              HttpHeaders.userAgentHeader:
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+            }))
+      ]);
+
+      Requester.get(
           url: "/search?q=คอร์ด $q site:chordtabs.in.th",
           options: RequesterOptions(baseUrl: "https://www.google.co.th", headers: {
             HttpHeaders.userAgentHeader:
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
           }));
-      var document = parse(response.toString());
+      var document = parse(response[0].toString());
       var res = document.getElementsByClassName('yuRUbf');
       var cover = "https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-simple-green-logo-icon-24.png";
       if (res.length > 0) {
-        response = await Requester.get(
-            url: "/search?q=รูปปก $q&tbm=isch",
-            options: RequesterOptions(baseUrl: "https://google.co.th", headers: {
-              HttpHeaders.userAgentHeader:
-                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
-            }));
-        document = parse(response.toString());
+        document = parse(response[1].toString());
         final elements = document.getElementsByClassName('t0fcAb');
         if (Uri.parse(elements[0].attributes['src'].toString()).isAbsolute) {
           cover = elements[0].attributes['src'].toString();
