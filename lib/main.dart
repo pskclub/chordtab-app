@@ -26,9 +26,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget appBarTitle = new Text("ChordTab");
-  Icon actionIcon = new Icon(Icons.search);
-
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     SearchPage(),

@@ -11,14 +11,14 @@ class BottomNavigationBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     AppUseCase appRepo = Provider.of<AppUseCase>(context);
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: 'หน้าแรก',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.search),
-          label: 'Search',
+          label: 'ค้นหา',
         ),
       ],
       currentIndex: appRepo.tabIndex,
