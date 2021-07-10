@@ -43,15 +43,16 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   Widget build(BuildContext context) {
     var chord = Provider.of<ChordUseCase>(context);
     return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title), appBarActions: [
-      PopupMenuButton<String>(
-        color: Colors.white,
-        itemBuilder: (BuildContext context) {
-          return {'คอลเลกชั่น', 'รายการโปรด'}.map((String choice) {
-            return PopupMenuItem<String>(
-              value: choice,
-              child: Text(choice, style: TextStyle(color: THEME.shade500)),
-            );
-          }).toList();
+      IconButton(
+        icon: const Icon(Icons.more_vert),
+        tooltip: 'Show Snackbar',
+        onPressed: () {
+          showModalBottomSheet(
+              backgroundColor: THEME.shade500,
+              context: context,
+              builder: (context) {
+                return buildBottomSheet(context);
+              });
         },
       ),
     ]);
@@ -59,6 +60,28 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
 
   buildBody(ChordUseCase chord) {
     return chordModel.type == ChordItemType.chordTab ? _buildChordTab(chord) : _buildDoChord(chord);
+  }
+
+  Column buildBottomSheet(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ListTile(
+          leading: new Icon(Icons.collections),
+          title: new Text('คอลเลกชั่น'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: new Icon(Icons.favorite),
+          title: new Text('รายการโปรด'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
   }
 
   _buildChordTab(ChordUseCase chord) {
