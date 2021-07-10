@@ -42,19 +42,21 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             width: double.infinity,
             fit: BoxFit.fitWidth,
             cache: false,
-            loadStateChanged: (ExtendedImageState state) {
-              switch (state.extendedImageLoadState) {
-                case LoadState.loading:
-                  return Text("loading...");
-
-                case LoadState.completed:
-                  // TODO: Handle this case.
-                  break;
-                case LoadState.failed:
-                  // TODO: Handle this case.
-                  break;
-              }
-            },
+            loadStateChanged: buildLoadState,
           ));
+  }
+
+  Widget? buildLoadState(ExtendedImageState state) {
+    switch (state.extendedImageLoadState) {
+      case LoadState.loading:
+        return Text("loading...");
+
+      case LoadState.completed:
+        // TODO: Handle this case.
+        break;
+      case LoadState.failed:
+        // TODO: Handle this case.
+        break;
+    }
   }
 }

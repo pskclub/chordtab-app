@@ -24,27 +24,31 @@ class ChordListView extends StatelessWidget {
             backgroundColor: THEME.shade500,
             context: context,
             builder: (context) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: new Icon(Icons.collections),
-                    title: new Text('คอลเลกชั่น'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: new Icon(Icons.favorite),
-                    title: new Text('รายการโปรด'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              );
+              return buildBottomSheet(context);
             })
       },
+    );
+  }
+
+  Column buildBottomSheet(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ListTile(
+          leading: new Icon(Icons.collections),
+          title: new Text('คอลเลกชั่น'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: new Icon(Icons.favorite),
+          title: new Text('รายการโปรด'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 
