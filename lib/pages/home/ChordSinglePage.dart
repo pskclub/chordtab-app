@@ -33,9 +33,8 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
     super.initState();
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      var chordUseCase = Provider.of<ChordUseCase>(context, listen: false);
       if (chordModel.type == ChordItemType.chordTab) {
-        chordUseCase.find(chordModel);
+        Provider.of<ChordUseCase>(context, listen: false).find(chordModel);
       }
     });
   }
