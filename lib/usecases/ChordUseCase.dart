@@ -20,7 +20,7 @@ class ChordUseCase with ChangeNotifier {
 
   Future<void> search(String key, String q) async {
     if (_searchCancelToken != null) {
-      _searchCancelToken?.cancel('cancelled');
+      _searchCancelToken?.cancel();
     }
     getSearchResult(key).setLoading();
     notifyListeners();
