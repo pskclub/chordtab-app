@@ -18,3 +18,4 @@ const MaterialColor THEME = MaterialColor(
 const int _themePrimaryValue = 0xFF182245;
 
 const COLOR_INFO = Color(0xFFF30294);
+const COLOR_BACKGROUND = Color(0xFF171E3B);
