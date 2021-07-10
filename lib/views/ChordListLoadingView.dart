@@ -1,4 +1,4 @@
-import 'package:chordtab/views/skeleton_container.dart';
+import 'package:chordtab/views/SkeletonContainerView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class ChordListLoadingView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: <Widget>[
-            SkeletonContainer.circular(
+            SkeletonContainerView.circular(
               width: 40,
               height: 40,
             ),
@@ -22,12 +22,12 @@ class ChordListLoadingView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SkeletonContainer.rounded(
+                SkeletonContainerView.rounded(
                   width: MediaQuery.of(context).size.width * 0.6,
                   height: 16,
                 ),
                 const SizedBox(height: 8),
-                SkeletonContainer.rounded(
+                SkeletonContainerView.rounded(
                   width: 60,
                   height: 13,
                 ),

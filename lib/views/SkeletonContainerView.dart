@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
-class SkeletonContainer extends StatelessWidget {
+class SkeletonContainerView extends StatelessWidget {
   final double width;
   final double height;
   final BorderRadius borderRadius;
 
-  const SkeletonContainer._({
+  const SkeletonContainerView._({
     this.width = double.infinity,
     this.height = double.infinity,
     this.borderRadius = const BorderRadius.all(Radius.circular(0)),
     Key? key,
   }) : super(key: key);
 
-  const SkeletonContainer.square({
+  const SkeletonContainerView.square({
     required double width,
     required double height,
   }) : this._(width: width, height: height);
 
-  const SkeletonContainer.rounded({
+  const SkeletonContainerView.rounded({
     required double width,
     required double height,
     BorderRadius borderRadius = const BorderRadius.all(Radius.circular(12)),
   }) : this._(width: width, height: height, borderRadius: borderRadius);
 
-  const SkeletonContainer.circular({
+  const SkeletonContainerView.circular({
     required double width,
     required double height,
     BorderRadius borderRadius = const BorderRadius.all(Radius.circular(80)),
@@ -37,7 +37,7 @@ class SkeletonContainer extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Colors.grey[400],
         borderRadius: borderRadius,
       ),
     ),
