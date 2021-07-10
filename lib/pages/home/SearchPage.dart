@@ -54,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
   FloatingSearchBar buildFloatingSearchBar(ChordUseCase chordRepo) {
     return FloatingSearchBar(
         controller: controller,
-        margins: EdgeInsets.only(top: AppBar().preferredSize.height, left: 16, right: 16),
+        margins: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 16, left: 16, right: 16),
         progress: chordRepo.getSearchStatus(pageKey).isLoading,
         automaticallyImplyBackButton: false,
         transitionCurve: Curves.easeInOutCubic,
@@ -67,7 +67,7 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Colors.white,
         iconColor: Colors.grey,
         scrollPadding: EdgeInsets.zero,
-        hint: 'ค้นหาคอร์ด...',
+        hint: 'ค้นหาคอร์ด...ชื่อเพลง, เนื้อเพลง, นักร้อง',
         debounceDelay: const Duration(milliseconds: 500),
         onQueryChanged: (query) {
           if (query.isNotEmpty) {
@@ -88,7 +88,7 @@ class _SearchPageState extends State<SearchPage> {
         ],
         body: isShowList
             ? Padding(
-                padding: const EdgeInsets.only(top: 80, left: 8, right: 8),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 16, left: 8, right: 8),
                 child: ChordListView(items: chordRepo.getSearchItems(pageKey)),
               )
             : null,

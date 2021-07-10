@@ -1,7 +1,7 @@
 class Status {
   bool isSuccess = false;
   bool isError = false;
-  bool isLoading = true;
+  bool isLoading = false;
   bool isLoaded = false;
   Exception? errorData;
 

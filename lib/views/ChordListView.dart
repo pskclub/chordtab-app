@@ -1,3 +1,4 @@
+import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:chordtab/pages/home/ChordSinglePage.dart';
 import 'package:chordtab/views/ChordItemView.dart';
@@ -18,7 +19,32 @@ class ChordListView extends StatelessWidget {
           MaterialPageRoute(builder: (context) => ChordSinglePage(chordModel: item)),
         );
       },
-      onActionClick: (item) => {},
+      onActionClick: (item) => {
+        showModalBottomSheet(
+            backgroundColor: THEME.shade500,
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    leading: new Icon(Icons.collections),
+                    title: new Text('คอลเลกชั่น'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: new Icon(Icons.favorite),
+                    title: new Text('รายการโปรด'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            })
+      },
     );
   }
 
