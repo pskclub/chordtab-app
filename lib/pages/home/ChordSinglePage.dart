@@ -128,7 +128,14 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                   document.querySelector('.div_scroll2').remove();
                   document.head.insertAdjacentHTML("beforeend", `
                   <style>
-                  .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
+                  iframe { display: none !important; } 
+                  body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
+                  body > .ats-overlay-bottom-padding-block-top { display: none !important; } 
+                  body > .ats-overlay-bottom-close-button { display: none !important; } 
+                  #truehits_div { display: none !important; } 
+                  #ats-overlay_bottom-8 { display: none !important; } 
+                  #ats-overlay_bottom-6 { display: none !important; } 
+                  body > button { display: none !important; } 
                   .main_chord {padding-top :10px;}
                   blockquote {background-color: transparent !important;padding-top: 0 !important;padding-bottom: 10 !important;}
                   </style>`);                           
