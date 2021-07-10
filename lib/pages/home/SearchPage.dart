@@ -88,14 +88,17 @@ class _SearchPageState extends State<SearchPage> {
         ],
         body: isShowList
             ? Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 16, left: 8, right: 8),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 80, left: 8, right: 8),
                 child: ChordListView(items: chordRepo.getSearchItems(pageKey)),
               )
             : null,
         onFocusChanged: (isFocused) => isFocused ? setShowListState(false) : setShowListState(true),
         builder: (context, transition) {
-          return ChordListView(
-            items: chordRepo.getSearchItems(pageKey),
+          return Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: ChordListView(
+              items: chordRepo.getSearchItems(pageKey),
+            ),
           );
         });
   }

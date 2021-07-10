@@ -55,6 +55,7 @@ class ChordListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       scrollDirection: Axis.vertical,
       physics: BouncingScrollPhysics(parent: ClampingScrollPhysics()),
       shrinkWrap: true,
