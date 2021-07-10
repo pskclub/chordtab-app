@@ -10,13 +10,31 @@ abstract class IStatus {
   Exception? get errorData;
 }
 
-class Status<T> implements IStatus {
+class BaseStatus implements IStatus {
   bool isSuccess = false;
   bool isError = false;
   bool isLoading = false;
   bool isLoaded = false;
-  T? data;
   Exception? errorData;
+
+  setError(Exception e) {
+    isSuccess = false;
+    isError = true;
+    isLoading = false;
+    isLoaded = true;
+    errorData = e;
+  }
+
+  setLoading() {
+    isSuccess = false;
+    isError = false;
+    isLoading = true;
+    isLoaded = false;
+  }
+}
+
+class Status<T> extends BaseStatus implements IStatus {
+  T? data;
 
   Status({this.data});
 
@@ -33,30 +51,15 @@ class Status<T> implements IStatus {
     this.data = data;
   }
 
+  @override
   setError(Exception e) {
-    isSuccess = false;
-    isError = true;
-    isLoading = false;
-    isLoaded = true;
-    errorData = e;
+    super.setError(e);
     data = null;
-  }
-
-  setLoading() {
-    isSuccess = false;
-    isError = false;
-    isLoading = true;
-    isLoaded = false;
   }
 }
 
-class StatusList<T> implements IStatus {
-  bool isSuccess = false;
-  bool isError = false;
-  bool isLoading = false;
-  bool isLoaded = false;
+class StatusList<T> extends BaseStatus implements IStatus {
   List<T> items = [];
-  Exception? errorData;
 
   setSuccess(List<T> items) {
     isSuccess = true;
@@ -67,19 +70,9 @@ class StatusList<T> implements IStatus {
     this.items = items;
   }
 
+  @override
   setError(Exception e) {
-    isSuccess = false;
-    isError = true;
-    isLoading = false;
-    isLoaded = true;
-    errorData = e;
+    super.setError(e);
     items = [];
-  }
-
-  setLoading() {
-    isSuccess = false;
-    isError = false;
-    isLoading = true;
-    isLoaded = false;
   }
 }
