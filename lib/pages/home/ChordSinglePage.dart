@@ -1,6 +1,6 @@
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
-import 'package:chordtab/repositories/ChordRepository.dart';
+import 'package:chordtab/usecases/ChordUsecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -22,17 +22,17 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Provider.of<ChordRepository>(context, listen: false).find(chordModel);
+      Provider.of<ChordUseCase>(context, listen: false).find(chordModel);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var chord = Provider.of<ChordRepository>(context);
+    var chord = Provider.of<ChordUseCase>(context);
     return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title));
   }
 
-  buildBody(ChordRepository chord) {
+  buildBody(ChordUseCase chord) {
     return chord.findStatus.isLoading || chord.findMeta == null
         ? Text("loading...")
         : SingleChildScrollView(

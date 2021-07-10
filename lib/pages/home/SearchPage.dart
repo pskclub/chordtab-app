@@ -2,7 +2,7 @@ import 'package:chordtab/constants/bottom_navbar.dart';
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/repositories/AppRepository.dart';
-import 'package:chordtab/repositories/ChordRepository.dart';
+import 'package:chordtab/usecases/ChordUsecase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/ChordListView.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,11 +18,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final String pageKey = 'search';
   bool shouldPop = true;
 
   @override
   Widget build(BuildContext context) {
-    ChordRepository chordRepo = Provider.of<ChordRepository>(context);
+    ChordUseCase chordUseCase = Provider.of<ChordUseCase>(context);
     AppRepository appRepo = Provider.of<AppRepository>(context);
     return WillPopScope(
         onWillPop: () async {
@@ -30,16 +31,14 @@ class _SearchPageState extends State<SearchPage> {
           appRepo.changeTab(BOTTOM_NAVBAR.Home.index);
           return false;
         },
-        child: DefaultLayout(
-            body: buildFloatingSearchBar(chordRepo),
-            bottomNavigationBar: BottomNavigationBarView()));
+        child:
+            DefaultLayout(body: buildFloatingSearchBar(chordUseCase), bottomNavigationBar: BottomNavigationBarView()));
   }
 
-  FloatingSearchBar buildFloatingSearchBar(ChordRepository chordRepo) {
+  FloatingSearchBar buildFloatingSearchBar(ChordUseCase chordRepo) {
     return FloatingSearchBar(
-      margins: EdgeInsets.only(
-          top: AppBar().preferredSize.height + 18, left: 8, right: 8),
-      progress: chordRepo.searchStatus.isLoading,
+      margins: EdgeInsets.only(top: AppBar().preferredSize.height, left: 16, right: 16),
+      progress: chordRepo.getSearchStatus(pageKey).isLoading,
       automaticallyImplyBackButton: false,
       transitionCurve: Curves.easeInOutCubic,
       transition: CircularFloatingSearchBarTransition(),
@@ -51,11 +50,11 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: Colors.white,
       iconColor: Colors.grey,
       scrollPadding: EdgeInsets.zero,
-      hint: 'Search...',
+      hint: 'ค้นหาคอร์ด...',
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
         if (query.isNotEmpty) {
-          chordRepo.search(query);
+          chordRepo.search(pageKey, query);
         }
       },
       actions: [
@@ -72,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
       ],
       builder: (context, transition) {
         return ChordListView(
-          items: chordRepo.searchMeta.items,
+          items: chordRepo.getSearchItems(pageKey),
         );
       },
     );

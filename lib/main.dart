@@ -2,6 +2,7 @@ import 'package:chordtab/pages/home/HomePage.dart';
 import 'package:chordtab/pages/home/SearchPage.dart';
 import 'package:chordtab/repositories/AppRepository.dart';
 import 'package:chordtab/repositories/ChordRepository.dart';
+import 'package:chordtab/usecases/ChordUsecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AppRepository()),
-      ChangeNotifierProvider(create: (_) => ChordRepository()),
+      ChangeNotifierProvider(create: (_) => ChordUseCase()),
     ],
     child: MyApp(),
   ));

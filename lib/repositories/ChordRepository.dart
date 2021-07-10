@@ -3,73 +3,29 @@ import 'dart:io';
 import 'package:chordtab/constants/config.const.dart';
 import 'package:chordtab/core/Requester.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
-import 'package:chordtab/models/ChordTileListModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:html/parser.dart';
 
-class Status {
-  bool isSuccess = false;
-  bool isError = false;
-  bool isLoading = false;
-  bool isLoaded = false;
-
-  setSuccess() {
-    isSuccess = true;
-    isError = false;
-    isLoading = false;
-    isLoaded = true;
-  }
-
-  setError() {
-    isSuccess = false;
-    isError = true;
-    isLoading = false;
-    isLoaded = true;
-  }
-
-  setLoading() {
-    isSuccess = false;
-    isError = false;
-    isLoading = true;
-    isLoaded = false;
-  }
-}
-
-class ChordRepository with ChangeNotifier {
+class ChordRepository {
   final String baseAPI = configBaseAPI;
 
-  ChordTileListModel searchMeta = ChordTileListModel.init();
-  Status searchStatus = Status();
-
-  ChordTileItemModel? findMeta;
-  Status findStatus = Status();
-
-  Future<void> find(ChordTileItemModel chord) async {
-    findMeta = null;
-    findStatus.setLoading();
-    notifyListeners();
+  Future<ChordTileItemModel> find(ChordTileItemModel chord) async {
     try {
       var response = await Requester.get(url: chord.link);
       var document = parse(response.toString());
       var ele = document.querySelector('amp-img[layout="responsive"]');
       if (ele != null) {
         chord.image = 'https://chordtabs.in.th/' + ele.attributes['src'].toString().replaceFirst('.', '');
-        findMeta = chord;
-        findStatus.setSuccess();
+        return chord;
       } else {
-        findStatus.setError();
+        throw Exception(null);
       }
-      notifyListeners();
     } on DioError catch (e) {
-      findStatus.setError();
-      notifyListeners();
+      throw e;
     }
   }
 
-  Future<void> search(String q) async {
-    searchStatus.setLoading();
-    notifyListeners();
+  Future<List<ChordTileItemModel>> search(String q) async {
     try {
       var response = await Requester.get(
           url: "/search?q=คอร์ด $q site:chordtabs.in.th",
@@ -105,12 +61,9 @@ class ChordRepository with ChangeNotifier {
         }
       }
 
-      searchMeta.items = list;
-      searchStatus.setSuccess();
-      notifyListeners();
+      return list;
     } on DioError catch (e) {
-      searchStatus.setError();
-      notifyListeners();
+      throw e;
     }
   }
 }
