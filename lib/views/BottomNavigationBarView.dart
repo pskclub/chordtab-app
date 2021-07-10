@@ -1,5 +1,5 @@
 import 'package:chordtab/constants/theme.const.dart';
-import 'package:chordtab/repositories/AppRepository.dart';
+import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ class BottomNavigationBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppRepository appRepo = Provider.of<AppRepository>(context);
+    AppUseCase appRepo = Provider.of<AppUseCase>(context);
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(

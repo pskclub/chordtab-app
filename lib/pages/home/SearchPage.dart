@@ -1,8 +1,8 @@
 import 'package:chordtab/constants/bottom_navbar.dart';
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
-import 'package:chordtab/repositories/AppRepository.dart';
-import 'package:chordtab/usecases/ChordUsecase.dart';
+import 'package:chordtab/usecases/AppUseCase.dart';
+import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/ChordListView.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,7 +41,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     ChordUseCase chordUseCase = Provider.of<ChordUseCase>(context);
-    AppRepository appRepo = Provider.of<AppRepository>(context);
+    AppUseCase appRepo = Provider.of<AppUseCase>(context);
     return WillPopScope(
         onWillPop: () async {
           appRepo.changeTab(BOTTOM_NAVBAR.Home.index);

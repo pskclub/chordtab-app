@@ -1,8 +1,8 @@
 import 'package:chordtab/pages/home/HomePage.dart';
 import 'package:chordtab/pages/home/SearchPage.dart';
-import 'package:chordtab/repositories/AppRepository.dart';
+import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/repositories/ChordRepository.dart';
-import 'package:chordtab/usecases/ChordUsecase.dart';
+import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => AppRepository()),
+      ChangeNotifierProvider(create: (_) => AppUseCase()),
       ChangeNotifierProvider(create: (_) => ChordUseCase()),
     ],
     child: MyApp(),
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    AppRepository appRepo = Provider.of<AppRepository>(context);
+    AppUseCase appRepo = Provider.of<AppUseCase>(context);
 
     return MaterialApp(
       title: 'ChordTab',

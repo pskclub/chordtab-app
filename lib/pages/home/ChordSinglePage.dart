@@ -1,6 +1,6 @@
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
-import 'package:chordtab/usecases/ChordUsecase.dart';
+import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
