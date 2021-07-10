@@ -2,7 +2,7 @@ import 'package:chordtab/core/Status.dart';
 import 'package:flutter/cupertino.dart';
 
 class StatusWrapper extends StatelessWidget {
-  final Status status;
+  final IStatus status;
   final Widget body;
   final Widget? loading;
   final Widget? error;

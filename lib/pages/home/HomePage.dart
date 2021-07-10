@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       var chordRepo = Provider.of<ChordUseCase>(context, listen: false);
-      if (!chordRepo.getSearchStatus(pageKey).isLoaded) {
+      if (!chordRepo.getSearchResult(pageKey).isLoaded) {
         Provider.of<ChordUseCase>(context, listen: false).search(pageKey, "bodyslam");
       }
     });
@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
 
   buildBody(ChordUseCase chordRepo) {
     return StatusWrapper(
-        status: chordRepo.getSearchStatus(pageKey),
-        body: ChordListView(items: chordRepo.getSearchItems(pageKey)),
+        status: chordRepo.getSearchResult(pageKey),
+        body: ChordListView(items: chordRepo.getSearchResult(pageKey).items),
         loading: ChordListLoadingView());
   }
 }

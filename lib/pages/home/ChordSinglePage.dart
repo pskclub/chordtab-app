@@ -42,14 +42,14 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   @override
   Widget build(BuildContext context) {
     var chord = Provider.of<ChordUseCase>(context);
-    return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title),appBarActions : [
+    return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title), appBarActions: [
       PopupMenuButton<String>(
         color: Colors.white,
         itemBuilder: (BuildContext context) {
           return {'คอลเลกชั่น', 'รายการโปรด'}.map((String choice) {
             return PopupMenuItem<String>(
               value: choice,
-              child: Text(choice,style: TextStyle(color: THEME.shade500)),
+              child: Text(choice, style: TextStyle(color: THEME.shade500)),
             );
           }).toList();
         },
@@ -63,11 +63,11 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
 
   _buildChordTab(ChordUseCase chord) {
     return StatusWrapper(
-        status: chord.findStatus,
+        status: chord.findResult,
         body: Center(
           child: SingleChildScrollView(
               child: ExtendedImage.network(
-            chord.findMeta?.image ?? "",
+            chord.findResult.data?.image ?? "",
             width: double.infinity,
             fit: BoxFit.fitWidth,
             cache: false,

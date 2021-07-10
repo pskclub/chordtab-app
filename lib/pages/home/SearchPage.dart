@@ -55,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
     return FloatingSearchBar(
         controller: controller,
         margins: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 16, left: 16, right: 16),
-        progress: chordRepo.getSearchStatus(pageKey).isLoading,
+        progress: chordRepo.getSearchResult(pageKey).isLoading,
         automaticallyImplyBackButton: false,
         transitionCurve: Curves.easeInOutCubic,
         transition: CircularFloatingSearchBarTransition(),
@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
             ? Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 80, left: 8, right: 8),
                 child: ChordListView(
-                  items: chordRepo.getSearchItems(pageKey),
+                  items: chordRepo.getSearchResult(pageKey).items,
                   isItemRounded: true,
                 ),
               )
@@ -101,7 +101,7 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.only(top: 16),
             child: ChordListView(
               isItemRounded: true,
-              items: chordRepo.getSearchItems(pageKey),
+              items: chordRepo.getSearchResult(pageKey).items,
             ),
           );
         });
