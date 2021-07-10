@@ -1,7 +1,6 @@
 import 'package:chordtab/pages/home/HomePage.dart';
 import 'package:chordtab/pages/home/SearchPage.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
-import 'package:chordtab/repositories/ChordRepository.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
