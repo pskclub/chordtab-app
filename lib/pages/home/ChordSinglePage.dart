@@ -43,7 +43,19 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   @override
   Widget build(BuildContext context) {
     var chord = Provider.of<ChordUseCase>(context);
-    return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title));
+    return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title),appBarActions : [
+      PopupMenuButton<String>(
+        color: Colors.white,
+        itemBuilder: (BuildContext context) {
+          return {'คอลเลกชั่น', 'รายการโปรด'}.map((String choice) {
+            return PopupMenuItem<String>(
+              value: choice,
+              child: Text(choice,style: TextStyle(color: THEME.shade500)),
+            );
+          }).toList();
+        },
+      ),
+    ]);
   }
 
   buildBody(ChordUseCase chord) {
