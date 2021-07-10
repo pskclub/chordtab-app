@@ -114,7 +114,12 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                   document.querySelector('.bt-fav-foot').remove();
                   document.querySelector('.dk-fav').remove();
                   document.querySelector('.div_scroll2').remove();
-                  document.head.insertAdjacentHTML("beforeend", `<style>.ats-overlay-bottom-wrapper-rendered { display: none !important; }</style>`);                           
+                  document.head.insertAdjacentHTML("beforeend", `
+                  <style>
+                  .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
+                  .main_chord {padding-top :20px;}
+                  blockquote {background-color: transparent;padding: 0;}
+                  </style>`);                           
                          ''');
                 setState(() {
                   _webLoaded = true;

@@ -85,7 +85,7 @@ class ChordRepository {
         }
 
         if (type == ChordItemType.doChord) {
-          if (title.contains("คอร์ดเพลง") && !link.contains("artist")) {
+          if (title.contains("คอร์ดเพลง") && !link.contains("artist") && link != 'https://www.dochord.com/') {
             title = titleEle.text
                 .replaceFirst("คอร์ดเพลง ", "")
                 .replaceFirst("คอร์ด ", "")
