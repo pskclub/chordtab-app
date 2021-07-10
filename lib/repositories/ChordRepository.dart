@@ -46,21 +46,25 @@ class ChordRepository {
       List<ChordTileItemModel> chordTabList = _buildChordList(chordTabRequest, ChordItemType.chordTab);
       List<ChordTileItemModel> doChordList = _buildChordList(doChordRequest, ChordItemType.doChord);
 
-      List<ChordTileItemModel> finalList = [];
-      var length = chordTabList.length > doChordList.length ? chordTabList.length : doChordList.length;
-      for (var i = 0; i < length; i++) {
-        if (i + 1 <= chordTabList.length) {
-          finalList.add(chordTabList[i]);
-        }
-
-        if (i + 1 <= doChordList.length) {
-          finalList.add(doChordList[i]);
-        }
-      }
-      return finalList;
+      return _mergeSortList(chordTabList, doChordList);
     } on DioError catch (e) {
       throw e;
     }
+  }
+
+  List<ChordTileItemModel> _mergeSortList(List<ChordTileItemModel> chordTabList, List<ChordTileItemModel> doChordList) {
+    List<ChordTileItemModel> finalList = [];
+    var length = chordTabList.length > doChordList.length ? chordTabList.length : doChordList.length;
+    for (var i = 0; i < length; i++) {
+      if (i + 1 <= chordTabList.length) {
+        finalList.add(chordTabList[i]);
+      }
+
+      if (i + 1 <= doChordList.length) {
+        finalList.add(doChordList[i]);
+      }
+    }
+    return finalList;
   }
 
   List<ChordTileItemModel> _buildChordList(Response<dynamic> chordTabRequest, ChordItemType type) {
