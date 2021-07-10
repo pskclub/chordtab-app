@@ -1,9 +1,11 @@
+import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChordSinglePage extends StatefulWidget {
@@ -47,13 +49,13 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             loadStateChanged: buildLoadState,
           )),
         ),
-        loading: Text("loading..."));
+        loading: Center(child: CircularProgressIndicator(color: COLOR_INFO)));
   }
 
   Widget? buildLoadState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
-        return Text("loading...");
+        return Center(child: CircularProgressIndicator(color: COLOR_INFO));
 
       case LoadState.completed:
         // TODO: Handle this case.

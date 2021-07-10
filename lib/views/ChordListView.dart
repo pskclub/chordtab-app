@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 
 class ChordListView extends StatelessWidget {
   final List<ChordTileItemModel> items;
+  final bool isItemRounded;
 
-  const ChordListView({Key? key, required this.items}) : super(key: key);
+  const ChordListView({Key? key, required this.items, this.isItemRounded = false}) : super(key: key);
 
   ChordItemView _buildItemsForListView(BuildContext context, int index) {
     return ChordItemView(
+      isRounded: isItemRounded,
       item: items[index],
       onItemClick: (item) {
         Navigator.push(

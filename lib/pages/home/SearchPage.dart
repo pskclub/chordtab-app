@@ -89,7 +89,10 @@ class _SearchPageState extends State<SearchPage> {
         body: isShowList
             ? Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 80, left: 8, right: 8),
-                child: ChordListView(items: chordRepo.getSearchItems(pageKey)),
+                child: ChordListView(
+                  items: chordRepo.getSearchItems(pageKey),
+                  isItemRounded: true,
+                ),
               )
             : null,
         onFocusChanged: (isFocused) => isFocused ? setShowListState(false) : setShowListState(true),
@@ -97,6 +100,7 @@ class _SearchPageState extends State<SearchPage> {
           return Padding(
             padding: const EdgeInsets.only(top: 16),
             child: ChordListView(
+              isItemRounded: true,
               items: chordRepo.getSearchItems(pageKey),
             ),
           );
