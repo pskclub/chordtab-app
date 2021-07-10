@@ -3,6 +3,7 @@ import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/ChordListLoadingView.dart';
 import 'package:chordtab/views/ChordListView.dart';
+import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   buildBody(ChordUseCase chordRepo) {
-    return chordRepo.getSearchStatus(pageKey).isLoading || !chordRepo.getSearchStatus(pageKey).isSuccess
-        ? ChordListLoadingView()
-        : ChordListView(items: chordRepo.getSearchItems(pageKey));
+    return StatusWrapper(
+        status: chordRepo.getSearchStatus(pageKey),
+        body: ChordListView(items: chordRepo.getSearchItems(pageKey)),
+        loading: ChordListLoadingView());
   }
 }

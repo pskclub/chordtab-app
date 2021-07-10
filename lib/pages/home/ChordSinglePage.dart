@@ -1,6 +1,7 @@
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
+import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -34,16 +35,17 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   }
 
   buildBody(ChordUseCase chord) {
-    return chord.findStatus.isLoading || !chord.findStatus.isSuccess
-        ? Text("loading...")
-        : SingleChildScrollView(
+    return StatusWrapper(
+        status: chord.findStatus,
+        body: SingleChildScrollView(
             child: ExtendedImage.network(
-            chord.findMeta!.image,
-            width: double.infinity,
-            fit: BoxFit.fitWidth,
-            cache: false,
-            loadStateChanged: buildLoadState,
-          ));
+          chord.findMeta?.image ?? "",
+          width: double.infinity,
+          fit: BoxFit.fitWidth,
+          cache: false,
+          loadStateChanged: buildLoadState,
+        )),
+        loading: Text("loading..."));
   }
 
   Widget? buildLoadState(ExtendedImageState state) {
