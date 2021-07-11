@@ -31,6 +31,10 @@ class ChordFavoriteRepository {
   }
 
   Future<List<ChordItemModel>> delete(String id) async {
+    if (await find(id) == null) {
+      return list();
+    }
+
     var prefs = await _prefs;
     var favorites = await list();
     favorites.removeWhere((item) => item.id == id);
