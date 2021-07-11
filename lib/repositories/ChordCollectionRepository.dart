@@ -85,7 +85,7 @@ class ChordCollectionRepository {
     var prefs = await _prefs;
     var chords = await listChords(collectionId);
     chords.add(item);
-    await prefs.setString(key, jsonEncode(chords));
+    await prefs.setString('$key.$collectionId', jsonEncode(chords));
     return chords;
   }
 }
