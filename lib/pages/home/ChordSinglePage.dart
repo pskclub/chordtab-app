@@ -48,7 +48,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
         tooltip: 'Show Snackbar',
         onPressed: () {
           showModalBottomSheet(
-              backgroundColor: THEME.shade500,
+              backgroundColor: ThemeColors.primary,
               context: context,
               builder: (context) {
                 return buildBottomSheet(context);
@@ -97,7 +97,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             loadStateChanged: buildLoadState,
           )),
         ),
-        loading: Center(child: CircularProgressIndicator(color: COLOR_INFO)));
+        loading: Center(child: CircularProgressIndicator(color: ThemeColors.colors)));
   }
 
   _buildDoChord(ChordUseCase chord) {
@@ -177,7 +177,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   Widget? buildLoadState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
-        return Center(child: CircularProgressIndicator(color: COLOR_INFO));
+        return Center(child: CircularProgressIndicator(color: ThemeColors.info));
 
       case LoadState.completed:
         // TODO: Handle this case.

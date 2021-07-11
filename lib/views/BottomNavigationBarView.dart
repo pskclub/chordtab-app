@@ -22,9 +22,9 @@ class BottomNavigationBarView extends StatelessWidget {
         ),
       ],
       currentIndex: appRepo.tabIndex,
-      selectedItemColor: COLOR_INFO,
+      selectedItemColor: ThemeColors.info,
       unselectedItemColor: Colors.white,
-      backgroundColor: THEME.shade500,
+      backgroundColor: ThemeColors.primary,
       onTap: (index) => appRepo.changeTab(index),
     );
   }

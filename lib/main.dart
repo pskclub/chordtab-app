@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'constants/theme.const.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AppUseCase()),
@@ -39,8 +40,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'ChordTab',
       theme: ThemeData(
-        primaryColor: THEME.shade500,
-        scaffoldBackgroundColor: COLOR_BACKGROUND,
+        primaryColor: ThemeColors.primary,
+        scaffoldBackgroundColor: ThemeColors.bg,
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,

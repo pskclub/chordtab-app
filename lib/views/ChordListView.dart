@@ -23,7 +23,7 @@ class ChordListView extends StatelessWidget {
       },
       onActionClick: (item) => {
         showModalBottomSheet(
-            backgroundColor: THEME.shade500,
+            backgroundColor: ThemeColors.primary,
             context: context,
             builder: (context) {
               return buildBottomSheet(context);
