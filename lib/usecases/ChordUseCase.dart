@@ -1,16 +1,16 @@
 import 'package:chordtab/core/Status.dart';
-import 'package:chordtab/models/ChordTileItemModel.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/repositories/ChordRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class ChordUseCase with ChangeNotifier {
   ChordRepository chordRepo = ChordRepository();
-  Map<String, StatusList<ChordTileItemModel>> _searchResult = {};
+  Map<String, StatusList<ChordItemModel>> _searchResult = {};
   CancelToken? _searchCancelToken;
-  Status<ChordTileItemModel> findResult = Status();
+  Status<ChordItemModel> findResult = Status();
 
-  StatusList<ChordTileItemModel> searchResult(String key) {
+  StatusList<ChordItemModel> searchResult(String key) {
     if (!_searchResult.containsKey(key)) {
       _searchResult[key] = StatusList();
     }
@@ -36,7 +36,7 @@ class ChordUseCase with ChangeNotifier {
     }
   }
 
-  Future<void> find(ChordTileItemModel chord) async {
+  Future<void> find(ChordItemModel chord) async {
     findResult.setLoading();
     notifyListeners();
     try {

@@ -35,7 +35,11 @@ dependencies:
   extended_image: ^4.1.0
   skeleton_text: ^3.0.0
   webview_flutter_plus: ^0.2.2
-  webviewx: ^0.1.0
+  shared_preferences: ^2.0.6
+  json_annotation: ^4.0.1
+  uuid: ^3.0.4
+
+
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +49,8 @@ dev_dependencies:
   # following page: https://dart.dev/tools/pub/pubspec
 
   # The following section is specific to Flutter.
+  build_runner: ^2.0.6
+  json_serializable: ^4.1.3
 flutter:
 
   # The following line ensures that the Material Icons font is

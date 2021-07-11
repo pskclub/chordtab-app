@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       var chordRepo = App.getUseCase<ChordUseCase>(context,listen: false);
       if (!chordRepo.searchResult(pageKey).isLoaded) {
-        App.getUseCase<ChordUseCase>(context,listen: false).search(pageKey, "bodyslam");
+        chordRepo.search(pageKey, "bodyslam");
       }
     });
   }

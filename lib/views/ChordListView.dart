@@ -1,5 +1,5 @@
 import 'package:chordtab/constants/theme.const.dart';
-import 'package:chordtab/models/ChordTileItemModel.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/pages/home/ChordSinglePage.dart';
 import 'package:chordtab/views/ChordItemBottomSheet.dart';
 import 'package:chordtab/views/ChordItemView.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChordListView extends StatelessWidget {
-  final List<ChordTileItemModel> items;
+  final List<ChordItemModel> items;
   final bool isItemRounded;
 
   const ChordListView({Key? key, required this.items, this.isItemRounded = false}) : super(key: key);

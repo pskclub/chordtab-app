@@ -1,6 +1,8 @@
+import 'package:chordtab/pages/home/FavoritePage.dart';
 import 'package:chordtab/pages/home/HomePage.dart';
 import 'package:chordtab/pages/home/SearchPage.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
+import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +16,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => AppUseCase()),
       ChangeNotifierProvider(create: (_) => ChordUseCase()),
+      ChangeNotifierProvider(create: (_) => ChordFavoriteUseCase()),
     ],
     child: MyApp(),
   ));
@@ -30,6 +33,7 @@ class _MyAppState extends State<MyApp> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     SearchPage(),
+    FavoritePage(),
   ];
 
   @override

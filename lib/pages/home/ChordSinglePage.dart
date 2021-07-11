@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
-import 'package:chordtab/models/ChordTileItemModel.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/ChordItemBottomSheet.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
@@ -15,7 +15,7 @@ import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 import '../../core/App.dart';
 
 class ChordSinglePage extends StatefulWidget {
-  final ChordTileItemModel chordModel;
+  final ChordItemModel chordModel;
 
   const ChordSinglePage({Key? key, required this.chordModel}) : super(key: key);
 
@@ -24,7 +24,7 @@ class ChordSinglePage extends StatefulWidget {
 }
 
 class _ChordSinglePageState extends State<ChordSinglePage> {
-  final ChordTileItemModel chordModel;
+  final ChordItemModel chordModel;
   WebViewPlusController? _controller;
   bool _webLoaded = false;
 

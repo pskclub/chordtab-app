@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:chordtab/core/Requester.dart';
-import 'package:chordtab/models/ChordTileItemModel.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/utils/UUID.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 
@@ -10,7 +11,7 @@ class ChordRepository {
   final String baseUserAgent =
       "'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'";
 
-  Future<ChordTileItemModel> find(ChordTileItemModel chord) async {
+  Future<ChordItemModel> find(ChordItemModel chord) async {
     try {
       var response = await Requester.get(chord.link);
       var document = parse(response.toString());
@@ -26,7 +27,7 @@ class ChordRepository {
     }
   }
 
-  Future<List<ChordTileItemModel>> search(String q, {CancelToken? cancelToken}) async {
+  Future<List<ChordItemModel>> search(String q, {CancelToken? cancelToken}) async {
     try {
       var request = await Future.wait([
         Requester.get("/search?q=คอร์ด $q site:chordtabs.in.th",
@@ -44,8 +45,8 @@ class ChordRepository {
       var chordTabRequest = request[0];
       var doChordRequest = request[1];
 
-      List<ChordTileItemModel> chordTabList = _buildChordList(chordTabRequest, ChordItemType.chordTab);
-      List<ChordTileItemModel> doChordList = _buildChordList(doChordRequest, ChordItemType.doChord);
+      List<ChordItemModel> chordTabList = _buildChordList(chordTabRequest, ChordItemType.chordTab);
+      List<ChordItemModel> doChordList = _buildChordList(doChordRequest, ChordItemType.doChord);
 
       return _mergeSortList(chordTabList, doChordList);
     } on DioError catch (e) {
@@ -53,8 +54,8 @@ class ChordRepository {
     }
   }
 
-  List<ChordTileItemModel> _mergeSortList(List<ChordTileItemModel> chordTabList, List<ChordTileItemModel> doChordList) {
-    List<ChordTileItemModel> finalList = [];
+  List<ChordItemModel> _mergeSortList(List<ChordItemModel> chordTabList, List<ChordItemModel> doChordList) {
+    List<ChordItemModel> finalList = [];
     var length = chordTabList.length > doChordList.length ? chordTabList.length : doChordList.length;
     for (var i = 0; i < length; i++) {
       if (i + 1 <= chordTabList.length) {
@@ -68,14 +69,14 @@ class ChordRepository {
     return finalList;
   }
 
-  List<ChordTileItemModel> _buildChordList(Response<dynamic> chordTabRequest, ChordItemType type) {
+  List<ChordItemModel> _buildChordList(Response<dynamic> chordTabRequest, ChordItemType type) {
     var chordTabLogo =
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR3jtkgSaeZa_v4dkRYWL0xgEH8JFsIxswfzLch3HKVIAJaE8bg02LFHCHt";
     var doChordLogo = "https://www.dochord.com/wp-content/uploads/2018/04/dochord-logo-sm.png";
 
     var res = parse(chordTabRequest.toString()).getElementsByClassName('yuRUbf');
 
-    List<ChordTileItemModel> list = [];
+    List<ChordItemModel> list = [];
     for (var prop in res) {
       var linkEle = prop.querySelector('a');
       var titleEle = prop.querySelector('.LC20lb');
@@ -96,10 +97,10 @@ class ChordRepository {
               .replaceFirst("เพลง ", "")
               .replaceFirst(" - Chordtabs", "");
           if (link.contains("คอร์ดกีต้าร์")) {
-            list.add(ChordTileItemModel(
+            list.add(ChordItemModel(
                 title: title,
                 cover: chordTabLogo,
-                id: '1',
+                id: UUID.v4(),
                 image: '',
                 link: link,
                 type: type,
@@ -120,10 +121,10 @@ class ChordRepository {
                 .replaceFirst("เพลง ", "")
                 .replaceFirst(" | dochord.com", "");
 
-            list.add(ChordTileItemModel(
+            list.add(ChordItemModel(
                 title: title,
                 cover: doChordLogo,
-                id: '1',
+                id: UUID.v4(),
                 image: '',
                 link: link,
                 type: type,

@@ -1,13 +1,13 @@
-import 'package:chordtab/models/ChordTileItemModel.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChordItemView extends StatelessWidget {
-  final ChordTileItemModel item;
+  final ChordItemModel item;
   final bool isRounded;
 
-  final void Function(ChordTileItemModel item)? onItemClick;
-  final void Function(ChordTileItemModel item)? onActionClick;
+  final void Function(ChordItemModel item)? onItemClick;
+  final void Function(ChordItemModel item)? onActionClick;
 
   const ChordItemView({Key? key, required this.item, this.onItemClick, this.onActionClick, this.isRounded = false})
       : super(key: key);
