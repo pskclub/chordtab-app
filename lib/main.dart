@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
     HomePage(),
     SearchPage(),
     FavoritePage(),
+    FavoritePage(),
   ];
 
   @override

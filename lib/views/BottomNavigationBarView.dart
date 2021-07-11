@@ -24,6 +24,10 @@ class BottomNavigationBarView extends StatelessWidget {
           icon: Icon(Icons.favorite),
           label: 'รายการโปรด',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.collections),
+          label: 'คอลเลกชั่น',
+        ),
       ],
       currentIndex: appRepo.tabIndex,
       selectedItemColor: ThemeColors.info,
