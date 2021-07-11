@@ -1,4 +1,4 @@
-import 'package:chordtab/constants/bottom_navbar.dart';
+import 'package:chordtab/constants/bottom_navbar.const.dart';
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
