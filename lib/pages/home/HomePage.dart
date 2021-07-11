@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/App.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -22,9 +24,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      var chordRepo = Provider.of<ChordUseCase>(context, listen: false);
-      if (!chordRepo.getSearchResult(pageKey).isLoaded) {
-        Provider.of<ChordUseCase>(context, listen: false).search(pageKey, "bodyslam");
+      var chordRepo = App.getUseCase<ChordUseCase>(context,listen: false);
+      if (!chordRepo.searchResult(pageKey).isLoaded) {
+        App.getUseCase<ChordUseCase>(context,listen: false).search(pageKey, "bodyslam");
       }
     });
   }
@@ -38,8 +40,8 @@ class _HomePageState extends State<HomePage> {
 
   buildBody(ChordUseCase chordRepo) {
     return StatusWrapper(
-        status: chordRepo.getSearchResult(pageKey),
-        body: ChordListView(items: chordRepo.getSearchResult(pageKey).items),
+        status: chordRepo.searchResult(pageKey),
+        body: ChordListView(items: chordRepo.searchResult(pageKey).items),
         loading: ChordListLoadingView());
   }
 }

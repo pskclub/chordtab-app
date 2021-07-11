@@ -10,7 +10,7 @@ class ChordUseCase with ChangeNotifier {
   CancelToken? _searchCancelToken;
   Status<ChordTileItemModel> findResult = Status();
 
-  StatusList<ChordTileItemModel> getSearchResult(String key) {
+  StatusList<ChordTileItemModel> searchResult(String key) {
     if (!_searchResult.containsKey(key)) {
       _searchResult[key] = StatusList();
     }
@@ -22,15 +22,15 @@ class ChordUseCase with ChangeNotifier {
     if (_searchCancelToken != null) {
       _searchCancelToken?.cancel();
     }
-    getSearchResult(key).setLoading();
+    searchResult(key).setLoading();
     notifyListeners();
     try {
       _searchCancelToken = CancelToken();
-      getSearchResult(key).setSuccess(await chordRepo.search(q, cancelToken: _searchCancelToken));
+      searchResult(key).setSuccess(await chordRepo.search(q, cancelToken: _searchCancelToken));
       notifyListeners();
     } on DioError catch (e) {
       if (!CancelToken.isCancel(e)) {
-        getSearchResult(key).setError(e);
+        searchResult(key).setError(e);
         notifyListeners();
       }
     }

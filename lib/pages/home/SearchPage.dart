@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/App.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -40,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    ChordUseCase chordUseCase = Provider.of<ChordUseCase>(context);
+    ChordUseCase chordUseCase = App.getUseCase<ChordUseCase>(context);
     AppUseCase appRepo = Provider.of<AppUseCase>(context);
     return WillPopScope(
         onWillPop: () async {
@@ -55,7 +57,7 @@ class _SearchPageState extends State<SearchPage> {
     return FloatingSearchBar(
         controller: controller,
         margins: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 16, left: 16, right: 16),
-        progress: chordRepo.getSearchResult(pageKey).isLoading,
+        progress: chordRepo.searchResult(pageKey).isLoading,
         automaticallyImplyBackButton: false,
         transitionCurve: Curves.easeInOutCubic,
         transition: CircularFloatingSearchBarTransition(),
@@ -90,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
             ? Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 80, left: 8, right: 8),
                 child: ChordListView(
-                  items: chordRepo.getSearchResult(pageKey).items,
+                  items: chordRepo.searchResult(pageKey).items,
                   isItemRounded: true,
                 ),
               )
@@ -101,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.only(top: 16),
             child: ChordListView(
               isItemRounded: true,
-              items: chordRepo.getSearchResult(pageKey).items,
+              items: chordRepo.searchResult(pageKey).items,
             ),
           );
         });

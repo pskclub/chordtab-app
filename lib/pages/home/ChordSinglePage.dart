@@ -8,9 +8,10 @@ import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+
+import '../../core/App.dart';
 
 class ChordSinglePage extends StatefulWidget {
   final ChordTileItemModel chordModel;
@@ -34,14 +35,14 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (chordModel.type == ChordItemType.chordTab) {
-        Provider.of<ChordUseCase>(context, listen: false).find(chordModel);
+        App.getUseCase<ChordUseCase>(context, listen: false).find(chordModel);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var chord = Provider.of<ChordUseCase>(context);
+    var chord = App.getUseCase<ChordUseCase>(context);
     return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title), appBarActions: [
       IconButton(
         icon: const Icon(Icons.more_vert),
