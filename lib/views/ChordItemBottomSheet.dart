@@ -1,8 +1,12 @@
+import 'package:chordtab/core/App.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChordItemBottomSheet {
-  static Column build(BuildContext context) {
+  static Column build(BuildContext context, ChordItemModel item) {
+    var favoriteRepo = App.getUseCase<ChordFavoriteUseCase>(context, listen: false);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -17,6 +21,7 @@ class ChordItemBottomSheet {
           leading: new Icon(Icons.favorite),
           title: new Text('รายการโปรด'),
           onTap: () {
+            favoriteRepo.add(item);
             Navigator.pop(context);
           },
         ),

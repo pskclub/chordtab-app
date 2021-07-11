@@ -53,7 +53,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
               backgroundColor: ThemeColors.primary,
               context: context,
               builder: (context) {
-                return ChordItemBottomSheet.build(context);
+                return ChordItemBottomSheet.build(context, chordModel);
               });
         },
       ),

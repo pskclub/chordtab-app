@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:chordtab/core/Requester.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
-import 'package:chordtab/utils/UUID.dart';
+import 'package:chordtab/utils/Crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 
@@ -100,7 +100,7 @@ class ChordRepository {
             list.add(ChordItemModel(
                 title: title,
                 cover: chordTabLogo,
-                id: UUID.v4(),
+                id: Crypto.generateMd5(link),
                 image: '',
                 link: link,
                 type: type,
@@ -125,7 +125,7 @@ class ChordRepository {
             list.add(ChordItemModel(
                 title: title,
                 cover: doChordLogo,
-                id: UUID.v4(),
+                id: Crypto.generateMd5(link),
                 image: '',
                 link: link,
                 type: type,

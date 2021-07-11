@@ -27,7 +27,7 @@ class ChordListView extends StatelessWidget {
             backgroundColor: ThemeColors.primary,
             context: context,
             builder: (context) {
-              return ChordItemBottomSheet.build(context);
+              return ChordItemBottomSheet.build(context,item);
             })
       },
     );

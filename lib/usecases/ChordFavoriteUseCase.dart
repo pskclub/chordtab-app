@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 class ChordFavoriteUseCase with ChangeNotifier {
   StatusList<ChordItemModel> fetchResult = StatusList();
   StatusList<ChordItemModel> addResult = StatusList();
+  StatusList<ChordItemModel> deleteResult = StatusList();
   final favoriteRepo = ChordFavoriteRepository();
 
   Future<void> fetch() async {
@@ -30,6 +31,19 @@ class ChordFavoriteUseCase with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       addResult.setError(e);
+      notifyListeners();
+    }
+  }
+
+  Future<void> delete(String id) async {
+    deleteResult.setLoading();
+    notifyListeners();
+    try {
+      deleteResult.setSuccess(await favoriteRepo.delete(id));
+      fetchResult.items = deleteResult.items;
+      notifyListeners();
+    } on DioError catch (e) {
+      deleteResult.setError(e);
       notifyListeners();
     }
   }
