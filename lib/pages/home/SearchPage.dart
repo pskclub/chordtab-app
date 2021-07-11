@@ -21,9 +21,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final controller = FloatingSearchBarController();
-
   final String pageKey = 'search';
-  bool shouldPop = true;
   bool isShowList = true;
 
   @override
