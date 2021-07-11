@@ -30,7 +30,10 @@ class ChordFavoriteListView extends StatelessWidget {
   showAlertDialog(BuildContext context, ChordItemModel item) {
     // set up the buttons
     Widget confirmButton = TextButton(
-      child: Text("ลบ"),
+      child: Text(
+        "ลบ",
+        style: TextStyle(color: ThemeColors.info),
+      ),
       onPressed: () {
         App.getUseCase<ChordFavoriteUseCase>(context, listen: false).delete(item.id);
         Navigator.pop(context);
