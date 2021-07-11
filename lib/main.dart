@@ -1,3 +1,4 @@
+import 'package:chordtab/pages/home/CollectionPage.dart';
 import 'package:chordtab/pages/home/FavoritePage.dart';
 import 'package:chordtab/pages/home/HomePage.dart';
 import 'package:chordtab/pages/home/SearchPage.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
     HomePage(),
     SearchPage(),
     FavoritePage(),
-    FavoritePage(),
+    CollectionPage(),
   ];
 
   @override
@@ -45,7 +46,11 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'ChordTab',
       theme: ThemeData(
+        fontFamily: "Prompt",
+        backgroundColor: ThemeColors.primary,
         primaryColor: ThemeColors.primary,
+        dialogBackgroundColor: ThemeColors.primary,
+        splashColor: ThemeColors.primary,
         scaffoldBackgroundColor: ThemeColors.bg,
         brightness: Brightness.dark,
       ),

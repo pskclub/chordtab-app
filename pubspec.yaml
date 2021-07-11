@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.6
   json_annotation: ^4.0.1
   uuid: ^3.0.4
+  flutter_native_splash: ^1.2.0
 
 
 
@@ -90,3 +91,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  color: "#171E3B"
