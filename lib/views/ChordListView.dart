@@ -1,6 +1,7 @@
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:chordtab/pages/home/ChordSinglePage.dart';
+import 'package:chordtab/views/ChordItemBottomSheet.dart';
 import 'package:chordtab/views/ChordItemView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,31 +27,9 @@ class ChordListView extends StatelessWidget {
             backgroundColor: ThemeColors.primary,
             context: context,
             builder: (context) {
-              return buildBottomSheet(context);
+              return ChordItemBottomSheet.build(context);
             })
       },
-    );
-  }
-
-  Column buildBottomSheet(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        ListTile(
-          leading: new Icon(Icons.collections),
-          title: new Text('คอลเลกชั่น'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: new Icon(Icons.favorite),
-          title: new Text('รายการโปรด'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-      ],
     );
   }
 

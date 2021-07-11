@@ -4,6 +4,7 @@ import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordTileItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
+import 'package:chordtab/views/ChordItemBottomSheet.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,7 +53,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
               backgroundColor: ThemeColors.primary,
               context: context,
               builder: (context) {
-                return buildBottomSheet(context);
+                return ChordItemBottomSheet.build(context);
               });
         },
       ),
@@ -61,28 +62,6 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
 
   buildBody(ChordUseCase chord) {
     return chordModel.type == ChordItemType.chordTab ? _buildChordTab(chord) : _buildDoChord(chord);
-  }
-
-  Column buildBottomSheet(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        ListTile(
-          leading: new Icon(Icons.collections),
-          title: new Text('คอลเลกชั่น'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: new Icon(Icons.favorite),
-          title: new Text('รายการโปรด'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-      ],
-    );
   }
 
   _buildChordTab(ChordUseCase chord) {
