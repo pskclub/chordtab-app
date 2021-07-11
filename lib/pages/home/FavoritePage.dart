@@ -39,4 +39,6 @@ class _FavoritePage extends State<FavoritePage> {
         body: ChordFavoriteListView(items: favoriteRepo.fetchResult.items),
         loading: ChordListLoadingView());
   }
+
+
 }

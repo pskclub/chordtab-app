@@ -3,6 +3,7 @@ import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/ChordFavoriteListView.dart';
 import 'package:chordtab/views/ChordListLoadingView.dart';
+import 'package:chordtab/views/CollectionDialogCreateView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _FavoritePage extends State<CollectionPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-
+              CollectionCreateDialogView.show(context);
             },
           ),
         ]);
