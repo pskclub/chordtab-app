@@ -46,8 +46,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
     var chord = App.getUseCase<ChordUseCase>(context);
     return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title), appBarActions: [
       IconButton(
-        icon: const Icon(Icons.more_vert),
-        tooltip: 'Show Snackbar',
+        icon: const Icon(Icons.add),
         onPressed: () {
           showModalBottomSheet(
               backgroundColor: ThemeColors.primary,
