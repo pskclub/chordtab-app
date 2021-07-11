@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
-import '../../core/App.dart';
+import '../core/App.dart';
 
 class ChordSinglePage extends StatefulWidget {
   final ChordItemModel chordModel;

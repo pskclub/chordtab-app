@@ -1,7 +1,7 @@
-import 'package:chordtab/pages/home/CollectionPage.dart';
-import 'package:chordtab/pages/home/FavoritePage.dart';
-import 'package:chordtab/pages/home/HomePage.dart';
-import 'package:chordtab/pages/home/SearchPage.dart';
+import 'package:chordtab/pages/CollectionPage.dart';
+import 'package:chordtab/pages/FavoritePage.dart';
+import 'package:chordtab/pages/HomePage.dart';
+import 'package:chordtab/pages/SearchPage.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
