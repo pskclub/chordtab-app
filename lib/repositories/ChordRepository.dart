@@ -111,6 +111,7 @@ class ChordRepository {
         if (type == ChordItemType.doChord) {
           if (title.contains("คอร์ดเพลง") &&
               !link.contains("artist") &&
+              !link.contains("category") &&
               !link.contains("album") &&
               link != 'https://www.dochord.com/') {
             title = titleEle.text
