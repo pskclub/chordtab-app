@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class ChordUseCase with ChangeNotifier {
-  ChordRepository chordRepo = ChordRepository();
+  ChordRepository _chordRepo = ChordRepository();
   Map<String, StatusList<ChordItemModel>> _searchResult = {};
   CancelToken? _searchCancelToken;
   Status<ChordItemModel> findResult = Status();
@@ -26,7 +26,7 @@ class ChordUseCase with ChangeNotifier {
     notifyListeners();
     try {
       _searchCancelToken = CancelToken();
-      searchResult(key).setSuccess(await chordRepo.search(q, cancelToken: _searchCancelToken));
+      searchResult(key).setSuccess(await _chordRepo.search(q, cancelToken: _searchCancelToken));
       notifyListeners();
     } on DioError catch (e) {
       if (!CancelToken.isCancel(e)) {
@@ -40,7 +40,7 @@ class ChordUseCase with ChangeNotifier {
     findResult.setLoading();
     notifyListeners();
     try {
-      findResult.setSuccess(await chordRepo.find(chord));
+      findResult.setSuccess(await _chordRepo.find(chord));
       notifyListeners();
     } on DioError catch (e) {
       findResult.setError(e);

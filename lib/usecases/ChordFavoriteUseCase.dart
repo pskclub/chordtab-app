@@ -8,13 +8,13 @@ class ChordFavoriteUseCase with ChangeNotifier {
   StatusList<ChordItemModel> fetchResult = StatusList();
   StatusList<ChordItemModel> addResult = StatusList();
   StatusList<ChordItemModel> deleteResult = StatusList();
-  final favoriteRepo = ChordFavoriteRepository();
+  final _favoriteRepo = ChordFavoriteRepository();
 
   Future<void> fetch() async {
     fetchResult.setLoading();
     notifyListeners();
     try {
-      fetchResult.setSuccess(await favoriteRepo.list());
+      fetchResult.setSuccess(await _favoriteRepo.list());
       notifyListeners();
     } on DioError catch (e) {
       fetchResult.setError(e);
@@ -26,7 +26,7 @@ class ChordFavoriteUseCase with ChangeNotifier {
     addResult.setLoading();
     notifyListeners();
     try {
-      addResult.setSuccess(await favoriteRepo.add(chord));
+      addResult.setSuccess(await _favoriteRepo.add(chord));
       fetchResult.items = addResult.items;
       notifyListeners();
     } on DioError catch (e) {
@@ -39,7 +39,7 @@ class ChordFavoriteUseCase with ChangeNotifier {
     deleteResult.setLoading();
     notifyListeners();
     try {
-      deleteResult.setSuccess(await favoriteRepo.delete(id));
+      deleteResult.setSuccess(await _favoriteRepo.delete(id));
       fetchResult.items = deleteResult.items;
       notifyListeners();
     } on DioError catch (e) {
