@@ -7,6 +7,7 @@ import 'package:chordtab/views/EmptyView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../core/App.dart';
 
@@ -29,12 +30,15 @@ class _FavoritePage extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    ChordFavoriteUseCase favoriteRepo = App.getUseCase<ChordFavoriteUseCase>(context);
     return DefaultLayout(
-        body: buildBody(favoriteRepo), title: Text("รายการโปรด"), bottomNavigationBar: BottomNavigationBarView());
+        body: Consumer<ChordFavoriteUseCase>(builder: (BuildContext context, favoriteUseCase, Widget? child) {
+          return buildBody(favoriteUseCase);
+        }),
+        title: Text("รายการโปรด"),
+        bottomNavigationBar: BottomNavigationBarView());
   }
 
-  buildBody(ChordFavoriteUseCase favoriteRepo) {
+  Widget buildBody(ChordFavoriteUseCase favoriteRepo) {
     return StatusWrapper(
         status: favoriteRepo.fetchResult,
         body: EmptyView(

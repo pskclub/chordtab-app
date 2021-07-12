@@ -41,14 +41,17 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     ChordUseCase chordUseCase = App.getUseCase<ChordUseCase>(context);
-    AppUseCase appRepo = Provider.of<AppUseCase>(context);
+    AppUseCase appRepo = Provider.of<AppUseCase>(context, listen: false);
     return WillPopScope(
         onWillPop: () async {
           appRepo.changeTab(BOTTOM_NAVBAR.Home.index);
           return false;
         },
-        child:
-            DefaultLayout(body: buildFloatingSearchBar(chordUseCase), bottomNavigationBar: BottomNavigationBarView()));
+        child: DefaultLayout(
+            body: Consumer<ChordUseCase>(builder: (BuildContext context, chordUseCase, Widget? child) {
+              return buildFloatingSearchBar(chordUseCase);
+            }),
+            bottomNavigationBar: BottomNavigationBarView()));
   }
 
   FloatingSearchBar buildFloatingSearchBar(ChordUseCase chordRepo) {
