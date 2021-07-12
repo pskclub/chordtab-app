@@ -3,6 +3,7 @@ import 'package:chordtab/pages/FavoritePage.dart';
 import 'package:chordtab/pages/HomePage.dart';
 import 'package:chordtab/pages/SearchPage.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
+import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => AppUseCase()),
       ChangeNotifierProvider(create: (_) => ChordUseCase()),
       ChangeNotifierProvider(create: (_) => ChordFavoriteUseCase()),
+      ChangeNotifierProvider(create: (_) => ChordCollectionUseCase()),
     ],
     child: MyApp(),
   ));
