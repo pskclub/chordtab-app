@@ -39,7 +39,7 @@ class _CollectionPage extends State<CollectionPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              _showCreateDialog(context);
+              _showCreateDialog();
             },
           ),
         ]);
@@ -52,25 +52,7 @@ class _CollectionPage extends State<CollectionPage> {
         loading: ChordListLoadingView());
   }
 
-  _showCreateDialog(BuildContext context) {
-    // set up the buttons
-    Widget confirmButton = TextButton(
-      child: Text(
-        "เพิ่ม",
-        style: TextStyle(color: ThemeColors.info),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget cancelButton = TextButton(
-      child: Text("ยกเลิก"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // show the dialog
+  _showCreateDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -82,8 +64,21 @@ class _CollectionPage extends State<CollectionPage> {
           ),
           content: _buildDialogCreateForm(context),
           actions: [
-            confirmButton,
-            cancelButton,
+            TextButton(
+              child: Text(
+                "เพิ่ม",
+                style: TextStyle(color: ThemeColors.info),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text("ยกเลิก"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         );
       },
