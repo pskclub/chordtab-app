@@ -1,5 +1,5 @@
+import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/features/collection/ChordCollectionListView.dart';
-import 'package:chordtab/features/collection/CollectionDialogCreateView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
@@ -31,7 +31,7 @@ class _CollectionPage extends State<CollectionPage> {
   Widget build(BuildContext context) {
     return DefaultLayout(
         body: Consumer<ChordCollectionUseCase>(builder: (BuildContext context, collectionUseCase, Widget? child) {
-          return buildBody(collectionUseCase);
+          return _buildBody(collectionUseCase);
         }),
         title: Text("คอลเลกชั่น"),
         bottomNavigationBar: BottomNavigationBarView(),
@@ -39,16 +39,73 @@ class _CollectionPage extends State<CollectionPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              CollectionCreateDialogView.show(context);
+              _showCreateDialog(context);
             },
           ),
         ]);
   }
 
-  Widget buildBody(ChordCollectionUseCase collectionUseCase) {
+  Widget _buildBody(ChordCollectionUseCase collectionUseCase) {
     return StatusWrapper(
         status: collectionUseCase.fetchResult,
         body: ChordCollectionListView(items: collectionUseCase.fetchResult.items),
         loading: ChordListLoadingView());
+  }
+
+  _showCreateDialog(BuildContext context) {
+    // set up the buttons
+    Widget confirmButton = TextButton(
+      child: Text(
+        "เพิ่ม",
+        style: TextStyle(color: ThemeColors.info),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text("ยกเลิก"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: ThemeColors.primary,
+          title: Text(
+            "เพิ่มคอลเลกชั่น",
+            style: TextStyle(fontSize: 16),
+          ),
+          content: _buildDialogCreateForm(context),
+          actions: [
+            confirmButton,
+            cancelButton,
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildDialogCreateForm(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextField(
+          autofocus: true,
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+          decoration: InputDecoration(
+              errorText: 'กรุณาใส่ชื่อคอลเลกชั่น',
+              border: OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+              hintText: 'ชื่อคอลเลกชั่น'),
+        )
+      ],
+    );
   }
 }
