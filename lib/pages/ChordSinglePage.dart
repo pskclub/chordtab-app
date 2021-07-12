@@ -9,6 +9,7 @@ import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
@@ -43,33 +44,37 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
 
   @override
   Widget build(BuildContext context) {
-    var chord = App.getUseCase<ChordUseCase>(context);
-    return DefaultLayout(body: buildBody(chord), title: Text(chordModel.title), appBarActions: [
-      IconButton(
-        icon: const Icon(Icons.add),
-        onPressed: () {
-          showModalBottomSheet(
-              backgroundColor: ThemeColors.primary,
-              context: context,
-              builder: (context) {
-                return ChordItemBottomSheet.build(context, chordModel);
-              });
-        },
-      ),
-    ]);
+    return DefaultLayout(
+        body: Consumer<ChordUseCase>(builder: (BuildContext context, chordUseCase, Widget? child) {
+          return _buildBody(chordUseCase);
+        }),
+        title: Text(chordModel.title),
+        appBarActions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                  backgroundColor: ThemeColors.primary,
+                  context: context,
+                  builder: (context) {
+                    return ChordItemBottomSheet.build(context, chordModel);
+                  });
+            },
+          ),
+        ]);
   }
 
-  buildBody(ChordUseCase chord) {
-    return chordModel.type == ChordItemType.chordTab ? _buildChordTab(chord) : _buildDoChord(chord);
+  Widget _buildBody(ChordUseCase chordUseCase) {
+    return chordModel.type == ChordItemType.chordTab ? _buildChordTab(chordUseCase) : _buildDoChord(chordUseCase);
   }
 
-  _buildChordTab(ChordUseCase chord) {
+  _buildChordTab(ChordUseCase chordUseCase) {
     return StatusWrapper(
-        status: chord.findResult,
+        status: chordUseCase.findResult,
         body: Center(
           child: SingleChildScrollView(
               child: ExtendedImage.network(
-            chord.findResult.data?.image ?? "",
+            chordUseCase.findResult.data?.image ?? "",
             width: double.infinity,
             fit: BoxFit.fitWidth,
             cache: false,
@@ -79,7 +84,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
         loading: Center(child: CircularProgressIndicator(color: ThemeColors.colors)));
   }
 
-  _buildDoChord(ChordUseCase chord) {
+  _buildDoChord(ChordUseCase chordUseCase) {
     return Visibility(
       visible: _webLoaded,
       maintainSize: true,
