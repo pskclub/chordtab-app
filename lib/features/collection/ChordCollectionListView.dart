@@ -1,6 +1,9 @@
 import 'package:chordtab/constants/theme.const.dart';
+import 'package:chordtab/core/App.dart';
 import 'package:chordtab/models/ChordCollectionItemModel.dart';
 import 'package:chordtab/pages/CollectionSinglePage.dart';
+import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
+import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +36,7 @@ class ChordCollectionListView extends StatelessWidget {
         style: TextStyle(color: ThemeColors.info),
       ),
       onPressed: () {
-        // TODO
-        // App.getUseCase<ChordFavoriteUseCase>(context, listen: false).delete(item.id);
+        App.getUseCase<ChordCollectionUseCase>(context, listen: false).delete(item.id);
         Navigator.pop(context);
       },
     );
