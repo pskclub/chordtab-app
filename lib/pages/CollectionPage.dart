@@ -19,12 +19,21 @@ class CollectionPage extends StatefulWidget {
 }
 
 class _CollectionPage extends State<CollectionPage> {
+  TextEditingController _name = TextEditingController();
+  String? _nameErrorMessage;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       App.getUseCase<ChordCollectionUseCase>(context, listen: false).fetch();
     });
+  }
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,30 +65,42 @@ class _CollectionPage extends State<CollectionPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: ThemeColors.primary,
-          title: Text(
-            "เพิ่มคอลเลกชั่น",
-            style: TextStyle(fontSize: 16),
-          ),
-          content: _buildDialogCreateForm(context),
-          actions: [
-            TextButton(
-              child: Text(
-                "เพิ่ม",
-                style: TextStyle(color: ThemeColors.info),
+        return StatefulBuilder(
+          builder: (BuildContext context, void Function(void Function()) setState) {
+            return AlertDialog(
+              backgroundColor: ThemeColors.primary,
+              title: Text(
+                "เพิ่มคอลเลกชั่น",
+                style: TextStyle(fontSize: 16),
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text("ยกเลิก"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              content: _buildDialogCreateForm(context),
+              actions: [
+                TextButton(
+                  child: Text(
+                    "เพิ่ม",
+                    style: TextStyle(color: ThemeColors.info),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _nameErrorMessage = _name.text.isEmpty ? 'กรุณาใส่ชื่อคอลเลกชั่น' : null;
+                      return;
+                    });
+
+                    if (_nameErrorMessage == null) {
+                      App.getUseCase<ChordCollectionUseCase>(context, listen: false).add(_name.text);
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+                TextButton(
+                  child: Text("ยกเลิก"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -89,16 +110,28 @@ class _CollectionPage extends State<CollectionPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TextField(
-          autofocus: true,
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-          decoration: InputDecoration(
-              errorText: 'กรุณาใส่ชื่อคอลเลกชั่น',
-              border: OutlineInputBorder(),
-              contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              hintText: 'ชื่อคอลเลกชั่น'),
+        StatefulBuilder(
+          builder: (BuildContext context, void Function(void Function()) setState) {
+            return TextField(
+              controller: _name,
+              autofocus: true,
+              style: TextStyle(
+                fontSize: 14.0,
+              ),
+              onChanged: (text) {
+                if (_nameErrorMessage != null) {
+                  setState(() {
+                    _nameErrorMessage = null;
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                  errorText: _nameErrorMessage,
+                  border: OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                  hintText: 'ชื่อคอลเลกชั่น'),
+            );
+          },
         )
       ],
     );

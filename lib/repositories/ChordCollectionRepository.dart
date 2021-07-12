@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:chordtab/models/ChordCollectionItemModel.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/utils/Crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChordCollectionRepository {
@@ -24,14 +25,21 @@ class ChordCollectionRepository {
     return collections.firstWhereOrNull((item) => item.id == collectionId);
   }
 
-  Future<List<ChordCollectionItemModel>> add(ChordCollectionItemModel item) async {
-    if (await find(item.id) != null) {
+  Future<ChordCollectionItemModel?> findByName(String name) async {
+    name = name.trim();
+    var collections = await list();
+    return collections.firstWhereOrNull((item) => item.name == name);
+  }
+
+  Future<List<ChordCollectionItemModel>> add(String name) async {
+    name = name.trim();
+    if (await findByName(name) != null) {
       return list();
     }
 
     var prefs = await _prefs;
     var collections = await list();
-    collections.add(item);
+    collections.add(ChordCollectionItemModel(id: Crypto.generateMd5(name), name: name));
     await prefs.setString(key, jsonEncode(collections));
     return collections;
   }
