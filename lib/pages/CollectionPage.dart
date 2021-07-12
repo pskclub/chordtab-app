@@ -1,9 +1,9 @@
+import 'package:chordtab/features/collection/ChordCollectionListView.dart';
+import 'package:chordtab/features/collection/CollectionDialogCreateView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
-import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
+import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
-import 'package:chordtab/views/ChordFavoriteListView.dart';
 import 'package:chordtab/views/ChordListLoadingView.dart';
-import 'package:chordtab/views/CollectionDialogCreateView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,24 +14,23 @@ class CollectionPage extends StatefulWidget {
   const CollectionPage({Key? key}) : super(key: key);
 
   @override
-  _FavoritePage createState() => _FavoritePage();
+  _CollectionPage createState() => _CollectionPage();
 }
 
-class _FavoritePage extends State<CollectionPage> {
+class _CollectionPage extends State<CollectionPage> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      var favoriteRepo = App.getUseCase<ChordFavoriteUseCase>(context, listen: false);
-      favoriteRepo.fetch();
+      App.getUseCase<ChordCollectionUseCase>(context, listen: false).fetch();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ChordFavoriteUseCase favoriteRepo = App.getUseCase<ChordFavoriteUseCase>(context);
+    ChordCollectionUseCase collectionRepo = App.getUseCase<ChordCollectionUseCase>(context, listen: false);
     return DefaultLayout(
-        body: buildBody(favoriteRepo),
+        body: buildBody(collectionRepo),
         title: Text("คอลเลกชั่น"),
         bottomNavigationBar: BottomNavigationBarView(),
         appBarActions: [
@@ -44,10 +43,10 @@ class _FavoritePage extends State<CollectionPage> {
         ]);
   }
 
-  buildBody(ChordFavoriteUseCase favoriteRepo) {
+  buildBody(ChordCollectionUseCase collectionRepo) {
     return StatusWrapper(
-        status: favoriteRepo.fetchResult,
-        body: ChordFavoriteListView(items: favoriteRepo.fetchResult.items),
+        status: collectionRepo.fetchResult,
+        body: ChordCollectionListView(items: collectionRepo.fetchResult.items),
         loading: ChordListLoadingView());
   }
 }
