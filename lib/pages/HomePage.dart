@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      var chordRepo = App.getUseCase<ChordUseCase>(context,listen: false);
+      var chordRepo = App.getUseCase<ChordUseCase>(context, listen: false);
       if (!chordRepo.searchResult(pageKey).isLoaded) {
         chordRepo.search(pageKey, "bodyslam");
       }
@@ -33,15 +33,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ChordUseCase chordRepo = Provider.of<ChordUseCase>(context);
     return DefaultLayout(
-        body: buildBody(chordRepo), title: Text("Chord Tab"), bottomNavigationBar: BottomNavigationBarView());
+        body: Consumer<ChordUseCase>(builder: (BuildContext context, chordUseCase, Widget? child) {
+          return _buildBody(chordUseCase);
+        }),
+        title: Text("Chord Tab"),
+        bottomNavigationBar: BottomNavigationBarView());
   }
 
-  buildBody(ChordUseCase chordRepo) {
+  Widget _buildBody(ChordUseCase chordUseCase) {
     return StatusWrapper(
-        status: chordRepo.searchResult(pageKey),
-        body: ChordListView(items: chordRepo.searchResult(pageKey).items),
+        status: chordUseCase.searchResult(pageKey),
+        body: ChordListView(items: chordUseCase.searchResult(pageKey).items),
         loading: ChordListLoadingView());
   }
 }
