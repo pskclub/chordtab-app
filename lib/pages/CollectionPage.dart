@@ -88,6 +88,7 @@ class _CollectionPage extends State<CollectionPage> {
 
                     if (_nameErrorMessage == null) {
                       App.getUseCase<ChordCollectionUseCase>(context, listen: false).add(_name.text);
+                      _name = TextEditingController();
                       Navigator.pop(context);
                     }
                   },
