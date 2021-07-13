@@ -25,7 +25,7 @@ class ChordFavoriteRepository {
 
     var prefs = await _prefs;
     var favorites = await list();
-    favorites.add(item);
+    favorites = [item, ...favorites];
     await prefs.setString(key, jsonEncode(favorites));
     return favorites;
   }

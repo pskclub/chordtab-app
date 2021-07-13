@@ -39,7 +39,7 @@ class ChordCollectionRepository {
 
     var prefs = await _prefs;
     var collections = await list();
-    collections.add(ChordCollectionItemModel(id: Crypto.generateMd5(name), name: name));
+    collections = [ChordCollectionItemModel(id: Crypto.generateMd5(name), name: name), ...collections];
     await prefs.setString(key, jsonEncode(collections));
     return collections;
   }
@@ -92,7 +92,7 @@ class ChordCollectionRepository {
 
     var prefs = await _prefs;
     var chords = await listChords(collectionId);
-    chords.add(item);
+    chords = [item, ...chords];
     await prefs.setString('$key.$collectionId', jsonEncode(chords));
     return chords;
   }
