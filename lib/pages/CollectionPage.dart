@@ -1,10 +1,10 @@
 import 'package:chordtab/constants/theme.const.dart';
+import 'package:chordtab/features/chord/ChordListLoadingView.dart';
 import 'package:chordtab/features/collection/CollectionListView.dart';
 import 'package:chordtab/features/collection/EmptyCollectionView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
-import 'package:chordtab/views/ChordListLoadingView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

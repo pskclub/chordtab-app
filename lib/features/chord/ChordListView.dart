@@ -1,8 +1,8 @@
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/pages/ChordSinglePage.dart';
-import 'package:chordtab/views/ChordItemBottomSheet.dart';
-import 'package:chordtab/views/ChordItemView.dart';
+import 'package:chordtab/features/chord/ChordItemBottomSheet.dart';
+import 'package:chordtab/features/chord/ChordItemView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

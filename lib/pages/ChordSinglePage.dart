@@ -4,7 +4,7 @@ import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
-import 'package:chordtab/views/ChordItemBottomSheet.dart';
+import 'package:chordtab/features/chord/ChordItemBottomSheet.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';

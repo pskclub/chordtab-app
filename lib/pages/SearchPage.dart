@@ -4,7 +4,7 @@ import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
-import 'package:chordtab/views/ChordListView.dart';
+import 'package:chordtab/features/chord/ChordListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';

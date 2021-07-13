@@ -1,9 +1,9 @@
+import 'package:chordtab/features/chord/ChordListLoadingView.dart';
 import 'package:chordtab/features/favorite/ChordFavoriteListView.dart';
 import 'package:chordtab/features/favorite/EmptyFavoriteView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
-import 'package:chordtab/views/ChordListLoadingView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
