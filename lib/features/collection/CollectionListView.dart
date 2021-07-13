@@ -7,16 +7,16 @@ import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'ChordCollectionItemView.dart';
+import 'CollectionItemView.dart';
 
-class ChordCollectionListView extends StatelessWidget {
+class CollectionListView extends StatelessWidget {
   final List<ChordCollectionItemModel> items;
   final bool isItemRounded;
 
-  const ChordCollectionListView({Key? key, required this.items, this.isItemRounded = false}) : super(key: key);
+  const CollectionListView({Key? key, required this.items, this.isItemRounded = false}) : super(key: key);
 
-  ChordCollectionItemView _buildItemsForListView(BuildContext context, int index) {
-    return ChordCollectionItemView(
+  CollectionItemView _buildItemsForListView(BuildContext context, int index) {
+    return CollectionItemView(
       item: items[index],
       onItemClick: (item) {
         Navigator.push(

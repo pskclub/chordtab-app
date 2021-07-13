@@ -2,14 +2,14 @@ import 'package:chordtab/models/ChordCollectionItemModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ChordCollectionItemView extends StatelessWidget {
+class CollectionItemView extends StatelessWidget {
   final ChordCollectionItemModel item;
   final bool isRounded;
 
   final void Function(ChordCollectionItemModel item)? onItemClick;
   final void Function(ChordCollectionItemModel item)? onActionClick;
 
-  const ChordCollectionItemView(
+  const CollectionItemView(
       {Key? key, required this.item, this.onItemClick, this.onActionClick, this.isRounded = false})
       : super(key: key);
 

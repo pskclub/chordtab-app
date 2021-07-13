@@ -1,11 +1,11 @@
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 
-class EmptyView extends StatelessWidget {
+class EmptyFavoriteView extends StatelessWidget {
   final Widget child;
   final bool isEmpty;
 
-  const EmptyView({Key? key, required this.child, required this.isEmpty}) : super(key: key);
+  const EmptyFavoriteView({Key? key, required this.child, required this.isEmpty}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

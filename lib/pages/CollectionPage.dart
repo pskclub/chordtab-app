@@ -1,5 +1,6 @@
 import 'package:chordtab/constants/theme.const.dart';
-import 'package:chordtab/features/collection/ChordCollectionListView.dart';
+import 'package:chordtab/features/collection/CollectionListView.dart';
+import 'package:chordtab/features/collection/EmptyCollectionView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
@@ -57,7 +58,9 @@ class _CollectionPage extends State<CollectionPage> {
   Widget _buildBody(ChordCollectionUseCase collectionUseCase) {
     return StatusWrapper(
         status: collectionUseCase.fetchResult,
-        body: ChordCollectionListView(items: collectionUseCase.fetchResult.items),
+        body: EmptyCollectionView(
+            isEmpty: collectionUseCase.fetchResult.items.isEmpty,
+            child: CollectionListView(items: collectionUseCase.fetchResult.items)),
         loading: ChordListLoadingView());
   }
 
