@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:chordtab/constants/theme.const.dart';
+import 'package:chordtab/features/chord/ChordItemBottomSheet.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
-import 'package:chordtab/features/chord/ChordItemBottomSheet.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -77,81 +77,92 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             chordUseCase.findResult.data?.image ?? "",
             width: double.infinity,
             fit: BoxFit.fitWidth,
-            cache: false,
+            cache: true,
             loadStateChanged: buildLoadState,
           )),
         ),
-        loading: Center(child: CircularProgressIndicator(color: ThemeColors.colors)));
+        loading: Center(child: CircularProgressIndicator(color: ThemeColors.info)));
   }
 
   _buildDoChord(ChordUseCase chordUseCase) {
-    return Visibility(
-      visible: _webLoaded,
-      maintainSize: true,
-      maintainAnimation: true,
-      maintainState: true,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _controller?.webViewController.evaluateJavascript('key_minus();');
-                  },
-                  child: const Text('ลดคีย์'),
-                ),
-                SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    _controller?.webViewController.evaluateJavascript('key_plus();');
-                  },
-                  child: const Text('เพิ่มคีย์'),
-                ),
-                SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    _controller?.webViewController.evaluateJavascript('key_original();');
-                  },
-                  child: const Text('คีย์เริ่มต้น'),
-                ),
-              ],
-            ),
+    return Column(
+      children: [
+        Container(
+          child: _webLoaded ? null : Expanded(child: Center(child: CircularProgressIndicator(color: ThemeColors.info))),
+        ),
+        Container(child: _webLoaded ? _buildToolbar() : null),
+        Expanded(
+          child: Visibility(
+            visible: _webLoaded,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: _buildWebView(),
           ),
-          Expanded(
-            child: WebViewPlus(
-              initialUrl: chordModel.link,
-              onWebViewCreated: (controller) {
-                _controller = controller;
-              },
-              onPageFinished: (url) {
-                _controller?.webViewController.evaluateJavascript('''                      
-                  document.querySelector('#page').innerHTML = document.querySelector('.row.main_chord').outerHTML;
-                  document.querySelector('.bt-fav-foot').remove();
-                  document.querySelector('.dk-fav').remove();
-                  document.querySelector('.div_scroll2').remove();
-                  document.head.insertAdjacentHTML("beforeend", `
-                  <style>
-                  iframe { display: none !important; } 
-                  body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
-                  body > .ats-overlay-bottom-padding-block-top { display: none !important; } 
-                  body > .ats-overlay-bottom-close-button { display: none !important; } 
-                  #truehits_div { display: none !important; } 
-                  #ats-overlay_bottom-8 { display: none !important; } 
-                  #ats-overlay_bottom-6 { display: none !important; } 
-                  body > button { display: none !important; } 
-                  .main_chord {padding-top :10px;}
-                  blockquote {background-color: transparent !important;padding-top: 0 !important;padding-bottom: 10 !important;}
-                  </style>`);                           
-                         ''');
-                setState(() {
-                  _webLoaded = true;
-                });
-              },
-              javascriptMode: JavascriptMode.unrestricted,
-            ),
+        ),
+      ],
+    );
+  }
+
+  _buildWebView() {
+    return WebViewPlus(
+      initialUrl: chordModel.link,
+      onWebViewCreated: (controller) {
+        _controller = controller;
+      },
+      onPageFinished: (url) {
+        _controller?.webViewController.evaluateJavascript('''                      
+                document.querySelector('#page').innerHTML = document.querySelector('.row.main_chord').outerHTML;
+                document.querySelector('.bt-fav-foot').remove();
+                document.querySelector('.dk-fav').remove();
+                document.querySelector('.div_scroll2').remove();
+                document.head.insertAdjacentHTML("beforeend", `
+                <style>
+                iframe { display: none !important; } 
+                body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
+                body > .ats-overlay-bottom-padding-block-top { display: none !important; } 
+                body > .ats-overlay-bottom-close-button { display: none !important; } 
+                #truehits_div { display: none !important; } 
+                #ats-overlay_bottom-8 { display: none !important; } 
+                #ats-overlay_bottom-6 { display: none !important; } 
+                body > button { display: none !important; } 
+                .main_chord {padding-top :10px;}
+                blockquote {background-color: transparent !important;padding-top: 0 !important;padding-bottom: 10 !important;}
+                </style>`);                           
+                       ''');
+        setState(() {
+          _webLoaded = true;
+        });
+      },
+      javascriptMode: JavascriptMode.unrestricted,
+    );
+  }
+
+  Padding _buildToolbar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              _controller?.webViewController.evaluateJavascript('key_minus();');
+            },
+            child: const Text('ลดคีย์'),
+          ),
+          SizedBox(width: 16),
+          ElevatedButton(
+            onPressed: () {
+              _controller?.webViewController.evaluateJavascript('key_plus();');
+            },
+            child: const Text('เพิ่มคีย์'),
+          ),
+          SizedBox(width: 16),
+          ElevatedButton(
+            onPressed: () {
+              _controller?.webViewController.evaluateJavascript('key_original();');
+            },
+            child: const Text('คีย์เริ่มต้น'),
           ),
         ],
       ),
