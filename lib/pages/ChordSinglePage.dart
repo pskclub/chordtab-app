@@ -107,6 +107,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   _buildWebView() {
     return WebViewPlus(
       initialUrl: chordModel.link,
+      javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (controller) {
         _controller = controller;
       },
@@ -120,8 +121,6 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                 <style>
                 iframe { display: none !important; } 
                 body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
-                body > .ats-overlay-bottom-padding-block-top { display: none !important; } 
-                body > .ats-overlay-bottom-close-button { display: none !important; } 
                 #truehits_div { display: none !important; } 
                 #ats-overlay_bottom-8 { display: none !important; } 
                 #ats-overlay_bottom-6 { display: none !important; } 
@@ -134,37 +133,79 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
           _webLoaded = true;
         });
       },
-      javascriptMode: JavascriptMode.unrestricted,
     );
   }
 
   Padding _buildToolbar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () {
-              _controller?.webViewController.evaluateJavascript('key_minus();');
+          _buildToolbarButton(
+              text: const Text('ลดคีย์'),
+              onPressed: () {
+                _controller?.webViewController.evaluateJavascript('key_minus();');
+              }),
+          SizedBox(width: 8),
+          _buildToolbarButton(
+              text: const Text('เพิ่มคีย์'),
+              onPressed: () {
+                _controller?.webViewController.evaluateJavascript('key_plus();');
+              }),
+          SizedBox(width: 8),
+          _buildToolbarButton(
+              text: const Text('คีย์เริ่มต้น'),
+              onPressed: () {
+                _controller?.webViewController.evaluateJavascript('key_original();');
+              }),
+          SizedBox(width: 8),
+          // SizedBox(width: 16),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     _controller?.webViewController.evaluateJavascript('''
+          //     astart = 1.2
+          //     asint = window.setInterval(autoscroll, 200 / astart)
+          //     jQuery('#speed').html('1x')
+          //     jQuery('div#autoscroll').stop()
+          //     jQuery('div#x').animate({ 'width': '53px' }, 200, 'easeInOutQuint')
+          //     jQuery('div#autoscroll').animate({ 'right': '10px' }, 300, 'easeInOutQuint')
+          //     jQuery('a#autoscroll em').css({ 'background-position': 'left 27px' })
+          //     jQuery('.end-scroll').show()
+          //      ''');
+          //   },
+          //   child: const Text('เลื่อน'),
+          // ),
+          DropdownButton<String>(
+            value: 'One',
+            iconSize: 24,
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String? newValue) {
+              setState(() {});
             },
-            child: const Text('ลดคีย์'),
-          ),
-          SizedBox(width: 16),
-          ElevatedButton(
-            onPressed: () {
-              _controller?.webViewController.evaluateJavascript('key_plus();');
-            },
-            child: const Text('เพิ่มคีย์'),
-          ),
-          SizedBox(width: 16),
-          ElevatedButton(
-            onPressed: () {
-              _controller?.webViewController.evaluateJavascript('key_original();');
-            },
-            child: const Text('คีย์เริ่มต้น'),
-          ),
+            items: <String>['One', 'Two', 'Free', 'Four'].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          )
         ],
+      ),
+    );
+  }
+
+  Widget _buildToolbarButton({required Widget text, required VoidCallback? onPressed}) {
+    return Container(
+      height: 30,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: text,
       ),
     );
   }
