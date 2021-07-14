@@ -1,8 +1,10 @@
+import 'package:chordtab/constants/bottom_navbar.const.dart';
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/features/chord/ChordListLoadingView.dart';
 import 'package:chordtab/features/collection/CollectionListView.dart';
 import 'package:chordtab/features/collection/EmptyCollectionView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
+import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
@@ -39,20 +41,26 @@ class _CollectionPage extends State<CollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-        body: Consumer<ChordCollectionUseCase>(builder: (BuildContext context, collectionUseCase, Widget? child) {
-          return _buildBody(collectionUseCase);
-        }),
-        title: Text("คอลเลกชั่น"),
-        bottomNavigationBar: BottomNavigationBarView(),
-        appBarActions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              _showCreateDialog();
-            },
-          ),
-        ]);
+    return WillPopScope(
+      onWillPop: () async {
+        App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index);
+        return false;
+      },
+      child: DefaultLayout(
+          body: Consumer<ChordCollectionUseCase>(builder: (BuildContext context, collectionUseCase, Widget? child) {
+            return _buildBody(collectionUseCase);
+          }),
+          title: Text("คอลเลกชั่น"),
+          bottomNavigationBar: BottomNavigationBarView(),
+          appBarActions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                _showCreateDialog();
+              },
+            ),
+          ]),
+    );
   }
 
   Widget _buildBody(ChordCollectionUseCase collectionUseCase) {

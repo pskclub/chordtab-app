@@ -38,8 +38,7 @@ class _CollectionSinglePageState extends State<CollectionSinglePage> {
         body: Consumer<ChordCollectionUseCase>(builder: (BuildContext context, collectionUseCase, Widget? child) {
           return buildBody(collectionUseCase);
         }),
-        title: Text("คอลเลกชั่น: ${collectionModel.name}"),
-        bottomNavigationBar: BottomNavigationBarView());
+        title: Text("คอลเลกชั่น: ${collectionModel.name}"));
   }
 
   Widget buildBody(ChordCollectionUseCase collectionUseCase) {

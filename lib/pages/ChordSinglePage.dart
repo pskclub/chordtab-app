@@ -138,7 +138,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
 
   Padding _buildToolbar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -176,24 +176,32 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
           //   },
           //   child: const Text('เลื่อน'),
           // ),
-          DropdownButton<String>(
-            value: 'One',
-            iconSize: 24,
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+          Container(
+            height: 30,
+            padding: const EdgeInsets.only(left: 8, right: 8,top: 0,bottom: 0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.blue,
+                border: Border.all()),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                dropdownColor: Colors.white,
+                value: 'เลื่อน x1',
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(color: Colors.white),
+                onChanged: (String? newValue) {
+                  setState(() {});
+                },
+                items: <String>['เลื่อน x1', 'เลื่อน x2', 'เลื่อน x3', 'เลื่อน x']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
             ),
-            onChanged: (String? newValue) {
-              setState(() {});
-            },
-            items: <String>['One', 'Two', 'Free', 'Four'].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
           )
         ],
       ),

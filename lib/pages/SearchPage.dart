@@ -40,11 +40,9 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    ChordUseCase chordUseCase = App.getUseCase<ChordUseCase>(context);
-    AppUseCase appRepo = Provider.of<AppUseCase>(context, listen: false);
     return WillPopScope(
         onWillPop: () async {
-          appRepo.changeTab(BOTTOM_NAVBAR.Home.index);
+          App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index);
           return false;
         },
         child: DefaultLayout(

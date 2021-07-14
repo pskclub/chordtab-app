@@ -1,7 +1,9 @@
+import 'package:chordtab/constants/bottom_navbar.const.dart';
 import 'package:chordtab/features/chord/ChordListLoadingView.dart';
 import 'package:chordtab/features/favorite/ChordFavoriteListView.dart';
 import 'package:chordtab/features/favorite/EmptyFavoriteView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
+import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
@@ -30,12 +32,18 @@ class _FavoritePage extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-        body: Consumer<ChordFavoriteUseCase>(builder: (BuildContext context, favoriteUseCase, Widget? child) {
-          return buildBody(favoriteUseCase);
-        }),
-        title: Text("รายการโปรด"),
-        bottomNavigationBar: BottomNavigationBarView());
+    return WillPopScope(
+      onWillPop: () async {
+        App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index);
+        return false;
+      },
+      child: DefaultLayout(
+          body: Consumer<ChordFavoriteUseCase>(builder: (BuildContext context, favoriteUseCase, Widget? child) {
+            return buildBody(favoriteUseCase);
+          }),
+          title: Text("รายการโปรด"),
+          bottomNavigationBar: BottomNavigationBarView()),
+    );
   }
 
   Widget buildBody(ChordFavoriteUseCase favoriteRepo) {
