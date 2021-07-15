@@ -28,7 +28,7 @@ class BottomNavigationBarView extends StatelessWidget {
           backgroundColor: ThemeColors.primary,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.collections),
+          icon: Icon(Icons.collections_bookmark),
           label: 'คอลเลกชั่น',
           backgroundColor: ThemeColors.primary,
         ),
