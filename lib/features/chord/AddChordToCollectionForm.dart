@@ -1,8 +1,6 @@
-import 'package:chordtab/constants/bottom_navbar.const.dart';
 import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/core/App.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
-import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,49 +71,32 @@ class _AddChordToCollectionFormState extends State<AddChordToCollectionForm> {
           height: 16,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            TextButton.icon(
-              label: Text(
-                "คอลเลกชั่น",
+            TextButton(
+              child: Text(
+                "เพิ่ม",
                 style: TextStyle(color: ThemeColors.info),
               ),
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-                App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Collection.index, context);
-              },
-              icon: Icon(Icons.collections_bookmark),
-            ),
-            Row(
-              children: [
-                TextButton(
-                  child: Text(
-                    "เพิ่ม",
-                    style: TextStyle(color: ThemeColors.info),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      if (collectionId == null || collectionId!.isEmpty) _nameErrorMessage = 'กรุณาใส่ชื่อคอลเลกชั่น';
-                      return;
-                    });
+                setState(() {
+                  if (collectionId == null || collectionId!.isEmpty) _nameErrorMessage = 'กรุณาใส่ชื่อคอลเลกชั่น';
+                  return;
+                });
 
-                    if (_nameErrorMessage == null) {
-                      App.getUseCase<ChordCollectionUseCase>(context, listen: false)
-                          .addChord(collectionId!, chordModel);
-                      collectionId = null;
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-                TextButton(
-                  child: Text("ยกเลิก"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+                if (_nameErrorMessage == null) {
+                  App.getUseCase<ChordCollectionUseCase>(context, listen: false).addChord(collectionId!, chordModel);
+                  collectionId = null;
+                  Navigator.pop(context);
+                }
+              },
+            ),
+            TextButton(
+              child: Text("ยกเลิก"),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
             ),
           ],
         )

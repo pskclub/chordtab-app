@@ -53,7 +53,10 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              ChordItemBottomSheet.build(context, chordModel);
+              ChordItemBottomSheet.build(context, chordModel, () {
+                Navigator.pop(context);
+                ChordItemBottomSheet.buildSelectCollection(context, chordModel);
+              });
             },
           ),
         ]);

@@ -9,9 +9,7 @@ class ChordItemView extends StatelessWidget {
   final ChordItemModel item;
   final bool isRounded;
 
-
-  const ChordItemView({Key? key, required this.item,  this.isRounded = false})
-      : super(key: key);
+  const ChordItemView({Key? key, required this.item, this.isRounded = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,10 @@ class ChordItemView extends StatelessWidget {
             Icons.more_horiz,
           ),
           onPressed: () {
-            ChordItemBottomSheet.build(context, item);
+            ChordItemBottomSheet.build(context, item, () {
+              Navigator.pop(context);
+              ChordItemBottomSheet.buildSelectCollection(context, item);
+            });
           },
         ),
         onTap: () {
