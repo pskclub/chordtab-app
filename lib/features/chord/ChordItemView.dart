@@ -1,15 +1,16 @@
 import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/pages/ChordSinglePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'ChordItemBottomSheet.dart';
 
 class ChordItemView extends StatelessWidget {
   final ChordItemModel item;
   final bool isRounded;
 
-  final void Function(ChordItemModel item)? onItemClick;
-  final void Function(ChordItemModel item)? onActionClick;
 
-  const ChordItemView({Key? key, required this.item, this.onItemClick, this.onActionClick, this.isRounded = false})
+  const ChordItemView({Key? key, required this.item,  this.isRounded = false})
       : super(key: key);
 
   @override
@@ -41,11 +42,14 @@ class ChordItemView extends StatelessWidget {
             Icons.more_horiz,
           ),
           onPressed: () {
-            onActionClick?.call(item);
+            ChordItemBottomSheet.build(context, item);
           },
         ),
         onTap: () {
-          onItemClick?.call(item);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChordSinglePage(chordModel: item)),
+          );
         });
   }
 }

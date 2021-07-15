@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 class AppUseCase with ChangeNotifier {
   int tabIndex = BOTTOM_NAVBAR.Home.index;
 
-  changeTab(int index) {
+  changeTab(int index, BuildContext context) {
     tabIndex = index;
     notifyListeners();
   }

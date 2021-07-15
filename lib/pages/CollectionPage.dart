@@ -43,7 +43,7 @@ class _CollectionPage extends State<CollectionPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index);
+        App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index, context);
         return false;
       },
       child: DefaultLayout(
@@ -53,12 +53,15 @@ class _CollectionPage extends State<CollectionPage> {
           title: Text("คอลเลกชั่น"),
           bottomNavigationBar: BottomNavigationBarView(),
           appBarActions: [
-            IconButton(
-              icon: const Icon(Icons.add),
+            TextButton(
               onPressed: () {
                 _showCreateDialog();
               },
-            ),
+              child: Text(
+                'เพิ่ม',
+                style: TextStyle(color: Colors.white),
+              ),
+            )
           ]),
     );
   }

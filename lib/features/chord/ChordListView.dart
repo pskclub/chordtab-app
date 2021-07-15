@@ -1,8 +1,7 @@
-import 'package:chordtab/constants/theme.const.dart';
-import 'package:chordtab/models/ChordItemModel.dart';
-import 'package:chordtab/pages/ChordSinglePage.dart';
 import 'package:chordtab/features/chord/ChordItemBottomSheet.dart';
 import 'package:chordtab/features/chord/ChordItemView.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/pages/ChordSinglePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,20 +15,6 @@ class ChordListView extends StatelessWidget {
     return ChordItemView(
       isRounded: isItemRounded,
       item: items[index],
-      onItemClick: (item) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChordSinglePage(chordModel: item)),
-        );
-      },
-      onActionClick: (item) => {
-        showModalBottomSheet(
-            backgroundColor: ThemeColors.primary,
-            context: context,
-            builder: (context) {
-              return ChordItemBottomSheet.build(context,item);
-            })
-      },
     );
   }
 

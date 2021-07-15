@@ -1,10 +1,10 @@
 import 'package:chordtab/constants/bottom_navbar.const.dart';
 import 'package:chordtab/constants/theme.const.dart';
+import 'package:chordtab/features/chord/ChordListView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/usecases/AppUseCase.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/BottomNavigationBarView.dart';
-import 'package:chordtab/features/chord/ChordListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
@@ -42,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index);
+          App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index, context);
           return false;
         },
         child: DefaultLayout(

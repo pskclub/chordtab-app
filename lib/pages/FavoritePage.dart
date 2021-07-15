@@ -34,7 +34,7 @@ class _FavoritePage extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index);
+        App.getUseCase<AppUseCase>(context, listen: false).changeTab(BOTTOM_NAVBAR.Home.index, context);
         return false;
       },
       child: DefaultLayout(

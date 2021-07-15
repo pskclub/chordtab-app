@@ -53,12 +53,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              showModalBottomSheet(
-                  backgroundColor: ThemeColors.primary,
-                  context: context,
-                  builder: (context) {
-                    return ChordItemBottomSheet.build(context, chordModel);
-                  });
+              ChordItemBottomSheet.build(context, chordModel);
             },
           ),
         ]);
@@ -178,11 +173,8 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
           // ),
           Container(
             height: 30,
-            padding: const EdgeInsets.only(left: 8, right: 8,top: 0,bottom: 0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Colors.blue,
-                border: Border.all()),
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 0),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: Colors.blue, border: Border.all()),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 dropdownColor: Colors.white,
