@@ -86,8 +86,8 @@ class _CollectionCreateDialogState extends State<CollectionCreateDialog> {
   }
 }
 
-void collectionShowCreateDialog(BuildContext context) {
-  showDialog(
+Future<void> collectionShowCreateDialog(BuildContext context) {
+  return showDialog(
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(

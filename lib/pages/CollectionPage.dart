@@ -44,15 +44,11 @@ class _CollectionPage extends State<CollectionPage> {
           title: Text("คอลเลกชั่น"),
           bottomNavigationBar: BottomNavigationBarView(),
           appBarActions: [
-            TextButton(
-              onPressed: () {
-                collectionShowCreateDialog(context);
-              },
-              child: Text(
-                'สร้าง',
-                style: TextStyle(color: Colors.white),
-              ),
-            )
+            IconButton(
+                onPressed: () {
+                  collectionShowCreateDialog(context);
+                },
+                icon: Icon(Icons.add))
           ]),
     );
   }
