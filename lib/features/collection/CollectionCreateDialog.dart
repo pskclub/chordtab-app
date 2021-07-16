@@ -26,28 +26,24 @@ class _CollectionCreateDialogState extends State<CollectionCreateDialog> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        StatefulBuilder(
-          builder: (BuildContext context, void Function(void Function()) setState) {
-            return TextField(
-              controller: _name,
-              autofocus: true,
-              style: TextStyle(
-                fontSize: 14.0,
-              ),
-              onChanged: (text) {
-                if (_nameErrorMessage != null) {
-                  setState(() {
-                    _nameErrorMessage = null;
-                  });
-                }
-              },
-              decoration: InputDecoration(
-                  errorText: _nameErrorMessage,
-                  border: OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-                  hintText: 'ชื่อคอลเลกชั่น'),
-            );
+        TextField(
+          controller: _name,
+          autofocus: true,
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+          onChanged: (text) {
+            if (_nameErrorMessage != null) {
+              setState(() {
+                _nameErrorMessage = null;
+              });
+            }
           },
+          decoration: InputDecoration(
+              errorText: _nameErrorMessage,
+              border: OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+              hintText: 'ชื่อคอลเลกชั่น'),
         ),
         SizedBox(
           height: 16,
@@ -90,18 +86,14 @@ Future<void> collectionShowCreateDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
-      return StatefulBuilder(
-        builder: (BuildContext context, void Function(void Function()) setState) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 16),
-            backgroundColor: ThemeColors.primary,
-            title: Text(
-              "สร้างคอลเลกชั่น",
-              style: TextStyle(fontSize: 16),
-            ),
-            content: CollectionCreateDialog(),
-          );
-        },
+      return AlertDialog(
+        contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 16),
+        backgroundColor: ThemeColors.primary,
+        title: Text(
+          "สร้างคอลเลกชั่น",
+          style: TextStyle(fontSize: 16),
+        ),
+        content: CollectionCreateDialog(),
       );
     },
   );
