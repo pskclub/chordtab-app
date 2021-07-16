@@ -41,16 +41,17 @@ class _CollectionSheetState extends State<CollectionSheet> {
       );
     }).toList();
 
-    list = [
-      ListTile(
-        leading: Icon(Icons.add),
-        title: Text('สร้างคอลเลกชั่น'),
-        onTap: () {
-          collectionShowCreateDialog(context);
-        },
-      ),
-      ...list
-    ];
-    return Column(mainAxisSize: MainAxisSize.min, children: list);
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(Icons.add),
+          title: Text('สร้างคอลเลกชั่น'),
+          onTap: () {
+            collectionShowCreateDialog(context);
+          },
+        ),
+        Expanded(child: ListView(children: list)),
+      ],
+    );
   }
 }
