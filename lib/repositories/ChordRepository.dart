@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:chordtab/core/Requester.dart';
@@ -9,15 +10,22 @@ import 'package:html/parser.dart';
 class ChordRepository {
   final String baseGoogleAPI = "https://www.google.co.th";
   final String baseUserAgent =
-      "'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'";
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36";
+  final String chordTabUserAgent =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36";
 
   Future<ChordItemModel> find(ChordItemModel chord) async {
     try {
-      var response = await Requester.get(chord.link);
+      var response = await Requester.get(chord.link,
+          options: RequesterOptions(
+              headers: {HttpHeaders.userAgentHeader: chordTabUserAgent}));
       var document = parse(response.toString());
       var ele = document.querySelector('amp-img[layout="responsive"]');
       if (ele != null) {
         chord.image = 'https://chordtabs.in.th/' + ele.attributes['src'].toString().replaceFirst('.', '');
+        for (var item in document.querySelectorAll('.htmlchord')) {
+          chord.chordImages.add('https://chordtabs.in.th' + item.attributes['src'].toString().replaceFirst('.', ''));
+        }
         return chord;
       } else {
         throw Exception(null);
@@ -41,7 +49,6 @@ class ChordRepository {
                 baseUrl: baseGoogleAPI,
                 headers: {HttpHeaders.userAgentHeader: baseUserAgent})),
       ]);
-
 
       var chordTabRequest = request[0];
       var doChordRequest = request[1];
@@ -86,7 +93,8 @@ class ChordRepository {
             .replaceFirst("คอร์ดเพลง", "คอร์ดกีต้าร์")
             .replaceFirst("เนื้อเพลง", "คอร์ดกีต้าร์")
             .replaceFirst("ฟังเพลง", "คอร์ดกีต้าร์")
-            .replaceFirst("เพลง", "คอร์ดกีต้าร์");
+            .replaceFirst("เพลง", "คอร์ดกีต้าร์")
+            .replaceFirst("/mobile", "");
 
         var title = titleEle.text;
         if (type == ChordItemType.chordTab) {
@@ -103,6 +111,7 @@ class ChordRepository {
                 cover: chordTabLogo,
                 id: Crypto.generateMd5(link),
                 image: '',
+                chordImages: [],
                 link: link,
                 type: type,
                 description: 'ที่มา chordtabs.in.th'));
@@ -127,6 +136,7 @@ class ChordRepository {
                 title: title,
                 cover: doChordLogo,
                 id: Crypto.generateMd5(link),
+                chordImages: [],
                 image: '',
                 link: link,
                 type: type,

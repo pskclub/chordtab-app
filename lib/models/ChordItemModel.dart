@@ -12,10 +12,14 @@ class ChordItemModel {
   ChordItemType type;
   String image;
 
+  @JsonKey(defaultValue: [])
+  List<String> chordImages;
+
   ChordItemModel(
       {required this.id,
       required this.title,
       this.description,
+      required this.chordImages,
       required this.image,
       required this.type,
       required this.link,
