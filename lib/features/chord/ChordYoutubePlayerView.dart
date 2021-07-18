@@ -28,11 +28,7 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
   String _nowDuration = '0:00';
   YoutubePlayerController _youtubeController = YoutubePlayerController(
     flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-        disableDragSeek: true,
-        enableCaption: false,
-        hideControls: true),
+        autoPlay: true, mute: false, disableDragSeek: true, enableCaption: false, hideControls: true),
     initialVideoId: '',
   );
 
@@ -47,48 +43,41 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
         if (id.isNotEmpty && !_youtubeController.value.hasPlayed) {
           _youtubeController = YoutubePlayerController(
             flags: YoutubePlayerFlags(
-                autoPlay: true,
-                mute: false,
-                disableDragSeek: true,
-                enableCaption: false,
-                hideControls: true),
+                autoPlay: true, mute: false, disableDragSeek: true, enableCaption: false, hideControls: true),
             initialVideoId: id,
           );
+
+          _youtubeController.addListener(() {
+            setState(() {
+              _title = _youtubeController.metadata.title;
+              _author = _youtubeController.metadata.author;
+              _isPlaying = _youtubeController.value.isPlaying;
+              var durationSec = '${_youtubeController.metadata.duration.inSeconds.remainder(60)}';
+              _duration =
+                  '${_youtubeController.metadata.duration.inMinutes.remainder(60)}:${durationSec.length == 1 ? '0$durationSec' : durationSec}';
+
+              var nowDurationSec = '${_youtubeController.value.position.inSeconds.remainder(60)}';
+              _nowDuration =
+                  '${_youtubeController.value.position.inMinutes.remainder(60)}:${nowDurationSec.length == 1 ? '0$nowDurationSec' : nowDurationSec}';
+              var percent = ((100 * _youtubeController.value.position.inSeconds) /
+                      _youtubeController.metadata.duration.inSeconds) /
+                  100;
+
+              if (percent.isNaN || percent < 0) {
+                percent = 0;
+              }
+
+              if (percent > 1) {
+                percent = 1;
+              }
+              _percent = percent;
+            });
+          });
         }
       });
       chordUseCase.findYoutube(chordModel.title);
     });
 
-    _youtubeController.addListener(() {
-      setState(() {
-        _title = _youtubeController.metadata.title;
-        _author = _youtubeController.metadata.author;
-        _isPlaying = _youtubeController.value.isPlaying;
-        var durationSec = '${_youtubeController.metadata.duration.inSeconds.remainder(60)}';
-        _duration =
-        '${_youtubeController.metadata.duration.inMinutes.remainder(60)}:${durationSec.length == 1
-            ? '0$durationSec'
-            : durationSec}';
-
-        var nowDurationSec = '${_youtubeController.value.position.inSeconds.remainder(60)}';
-        _nowDuration =
-        '${_youtubeController.value.position.inMinutes.remainder(60)}:${nowDurationSec.length == 1
-            ? '0$nowDurationSec'
-            : nowDurationSec}';
-        var percent =
-            ((100 * _youtubeController.value.position.inSeconds) / _youtubeController.metadata.duration.inSeconds) /
-                100;
-
-        if (percent.isNaN || percent < 0) {
-          percent = 0;
-        }
-
-        if (percent > 1) {
-          percent = 1;
-        }
-        _percent = percent;
-      });
-    });
     super.initState();
   }
 
@@ -119,6 +108,7 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
               Text(
                 _title,
                 style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 8,
@@ -126,15 +116,13 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
               Text(
                 _author,
                 style: TextStyle(fontSize: 14, color: Colors.grey),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 38,
               ),
               LinearPercentIndicator(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width - 64,
+                width: MediaQuery.of(context).size.width - 64,
                 lineHeight: 4.0,
                 percent: _percent,
                 progressColor: ThemeColors.secondary,
