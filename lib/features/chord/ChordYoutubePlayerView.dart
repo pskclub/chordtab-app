@@ -84,7 +84,6 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
       });
       chordUseCase.findYoutube(chordModel.title);
     });
-
   }
 
   @override
@@ -157,7 +156,8 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      _youtubeController.seekTo(Duration(seconds: _youtubeController.value.position.inSeconds - 10));
+                      var sec = _youtubeController.value.position.inSeconds - 10;
+                      _youtubeController.seekTo(Duration(seconds: sec < 0 ? 0 : sec));
                     },
                     child: Icon(Icons.fast_rewind),
                     style: ElevatedButton.styleFrom(
@@ -191,7 +191,11 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _youtubeController.seekTo(Duration(seconds: _youtubeController.value.position.inSeconds + 10));
+                      var sec = _youtubeController.value.position.inSeconds + 10;
+                      _youtubeController.seekTo(Duration(
+                          seconds: sec > _youtubeController.metadata.duration.inSeconds
+                              ? _youtubeController.metadata.duration.inSeconds
+                              : sec));
                     },
                     child: Icon(Icons.fast_forward),
                     style: ElevatedButton.styleFrom(
