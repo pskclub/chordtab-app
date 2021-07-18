@@ -115,15 +115,20 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
         _controller = controller;
       },
       onPageFinished: (url) {
-        _controller?.webViewController.evaluateJavascript('''                      
+        _controller?.webViewController.evaluateJavascript('''     
+                var _key = document.querySelector('#chord-img');
+                var _key2 = document.querySelector('.text-tune');
                 document.querySelector('#page').innerHTML = document.querySelector('.row.main_chord').outerHTML;
                 document.querySelector('.bt-fav-foot').remove();
                 document.querySelector('.dk-fav').remove();
                 document.querySelector('.div_scroll2').remove();
+                document.querySelector('#page').prepend(_key);
+                document.querySelector('#page').prepend(_key2);
                 document.head.insertAdjacentHTML("beforeend", `
                 <style>
+                #chord-img { display: none !important; } 
                 iframe { display: none !important; } 
-                #page { padding-bottom: 50px; } 
+                #page { padding-bottom: 50px; padding-top :16px;} 
                 body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
                 #truehits_div { display: none !important; } 
                 hr { display: none !important; } 
@@ -131,7 +136,6 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                 #ats-overlay_bottom-8 { display: none !important; } 
                 #ats-overlay_bottom-6 { display: none !important; } 
                 body > button { display: none !important; } 
-                .main_chord {padding-top :10px;}
                 blockquote {background-color: transparent !important;padding-top: 0 !important;padding-bottom: 10 !important;}
                 </style>`);                           
                        ''');
