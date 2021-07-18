@@ -61,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
         transitionCurve: Curves.easeInOutCubic,
         transition: CircularFloatingSearchBarTransition(),
         physics: const BouncingScrollPhysics(),
-        accentColor: ThemeColors.info,
+        accentColor: ThemeColors.secondary,
         backdropColor: Colors.transparent,
         queryStyle: TextStyle(color: ThemeColors.primary),
         hintStyle: TextStyle(color: Colors.grey),

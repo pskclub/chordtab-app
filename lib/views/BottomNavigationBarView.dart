@@ -34,7 +34,7 @@ class BottomNavigationBarView extends StatelessWidget {
         ),
       ],
       currentIndex: appRepo.tabIndex,
-      selectedItemColor: ThemeColors.info,
+      selectedItemColor: ThemeColors.secondary,
       unselectedItemColor: Colors.white,
       backgroundColor: ThemeColors.primary,
       onTap: (index) => appRepo.changeTab(index,context),

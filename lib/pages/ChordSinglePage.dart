@@ -9,6 +9,7 @@ import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
@@ -28,6 +29,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   final ChordItemModel chordModel;
   WebViewPlusController? _controller;
   bool _webLoaded = false;
+  bool _isScrolling = false;
 
   _ChordSinglePageState({required this.chordModel});
 
@@ -45,21 +47,23 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-        body: Consumer<ChordUseCase>(builder: (BuildContext context, chordUseCase, Widget? child) {
-          return _buildBody(chordUseCase);
-        }),
-        title: Text(chordModel.title),
-        appBarActions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              ChordItemBottomSheet.build(context, chordModel, () {
-                Navigator.pop(context);
-                ChordItemBottomSheet.buildSelectCollection(context, chordModel);
-              });
-            },
-          ),
-        ]);
+      title: Text(chordModel.title),
+      appBarActions: [
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+            ChordItemBottomSheet.build(context, chordModel, () {
+              Navigator.pop(context);
+              ChordItemBottomSheet.buildSelectCollection(context, chordModel);
+            });
+          },
+        ),
+      ],
+      floatingActionButton: chordModel.type == ChordItemType.doChord ? _buildDoChordFloatingButton() : null,
+      body: Consumer<ChordUseCase>(builder: (BuildContext context, chordUseCase, Widget? child) {
+        return _buildBody(chordUseCase);
+      }),
+    );
   }
 
   Widget _buildBody(ChordUseCase chordUseCase) {
@@ -79,16 +83,17 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             loadStateChanged: buildLoadState,
           )),
         ),
-        loading: Center(child: CircularProgressIndicator(color: ThemeColors.info)));
+        loading: Center(child: CircularProgressIndicator(color: ThemeColors.secondary)));
   }
 
   _buildDoChord(ChordUseCase chordUseCase) {
     return Column(
       children: [
         Container(
-          child: _webLoaded ? null : Expanded(child: Center(child: CircularProgressIndicator(color: ThemeColors.info))),
+          child: _webLoaded
+              ? null
+              : Expanded(child: Center(child: CircularProgressIndicator(color: ThemeColors.secondary))),
         ),
-        Container(child: _webLoaded ? _buildToolbar() : null),
         Expanded(
           child: Visibility(
             visible: _webLoaded,
@@ -118,8 +123,11 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                 document.head.insertAdjacentHTML("beforeend", `
                 <style>
                 iframe { display: none !important; } 
+                #page { padding-bottom: 50px; } 
                 body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
                 #truehits_div { display: none !important; } 
+                hr { display: none !important; } 
+                .bt-fav-foot { display: none !important; } 
                 #ats-overlay_bottom-8 { display: none !important; } 
                 #ats-overlay_bottom-6 { display: none !important; } 
                 body > button { display: none !important; } 
@@ -134,89 +142,74 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
     );
   }
 
-  Padding _buildToolbar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildToolbarButton(
-              text: const Text('ลดคีย์'),
-              onPressed: () {
-                _controller?.webViewController.evaluateJavascript('key_minus();');
-              }),
-          SizedBox(width: 8),
-          _buildToolbarButton(
-              text: const Text('เพิ่มคีย์'),
-              onPressed: () {
-                _controller?.webViewController.evaluateJavascript('key_plus();');
-              }),
-          SizedBox(width: 8),
-          _buildToolbarButton(
-              text: const Text('คีย์เริ่มต้น'),
-              onPressed: () {
-                _controller?.webViewController.evaluateJavascript('key_original();');
-              }),
-          SizedBox(width: 8),
-          // SizedBox(width: 16),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     _controller?.webViewController.evaluateJavascript('''
-          //     astart = 1.2
-          //     asint = window.setInterval(autoscroll, 200 / astart)
-          //     jQuery('#speed').html('1x')
-          //     jQuery('div#autoscroll').stop()
-          //     jQuery('div#x').animate({ 'width': '53px' }, 200, 'easeInOutQuint')
-          //     jQuery('div#autoscroll').animate({ 'right': '10px' }, 300, 'easeInOutQuint')
-          //     jQuery('a#autoscroll em').css({ 'background-position': 'left 27px' })
-          //     jQuery('.end-scroll').show()
-          //      ''');
-          //   },
-          //   child: const Text('เลื่อน'),
-          // ),
-          Container(
-            height: 30,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 0),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: Colors.blue, border: Border.all()),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                dropdownColor: Colors.white,
-                value: 'เลื่อน x1',
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(color: Colors.white),
-                onChanged: (String? newValue) {
-                  setState(() {});
-                },
-                items: <String>['เลื่อน x1', 'เลื่อน x2', 'เลื่อน x3', 'เลื่อน x']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildToolbarButton({required Widget text, required VoidCallback? onPressed}) {
-    return Container(
-      height: 30,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        child: text,
-      ),
+  Widget _buildDoChordFloatingButton() {
+    return SpeedDial(
+      icon: Icons.settings,
+      activeIcon: Icons.close,
+      spacing: 3,
+      backgroundColor: ThemeColors.primary,
+      foregroundColor: Colors.white,
+      closeManually: true,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.circle),
+          foregroundColor: ThemeColors.primary,
+          backgroundColor: Colors.white,
+          label: 'คีย์เริ่มต้น',
+          onTap: () => _controller?.webViewController.evaluateJavascript('key_original();'),
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.remove),
+          foregroundColor: ThemeColors.primary,
+          backgroundColor: Colors.white,
+          label: 'ลดคีย์',
+          onTap: () => _controller?.webViewController.evaluateJavascript('key_minus();'),
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.add),
+          foregroundColor: ThemeColors.primary,
+          backgroundColor: Colors.white,
+          label: 'เพิ่มคีย์',
+          onTap: () => _controller?.webViewController.evaluateJavascript('key_plus();'),
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.stop),
+          foregroundColor: ThemeColors.primary,
+          backgroundColor: Colors.white,
+          label: 'หยุดเลื่อน',
+          onTap: () {
+            _controller?.webViewController.evaluateJavascript('clearInterval(asint);');
+            setState(() {
+              _isScrolling = false;
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.keyboard_arrow_down_sharp),
+          foregroundColor: ThemeColors.primary,
+          backgroundColor: Colors.white,
+          label: 'เลื่อน',
+          onTap: () {
+            _controller?.webViewController.evaluateJavascript('''
+                clearInterval(asint);
+                astart = 1.2;
+                asint = window.setInterval(autoscroll, 200 / astart);
+                jQuery('#speed').html('1x');
+                jQuery('div#autoscroll').stop();
+                 ''');
+            setState(() {
+              _isScrolling = true;
+            });
+          },
+        ),
+      ],
     );
   }
 
   Widget? buildLoadState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
-        return Center(child: CircularProgressIndicator(color: ThemeColors.info));
+        return Center(child: CircularProgressIndicator(color: ThemeColors.secondary));
 
       case LoadState.completed:
         // TODO: Handle this case.

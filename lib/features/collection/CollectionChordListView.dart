@@ -34,7 +34,7 @@ class CollectionChordListView extends StatelessWidget {
     Widget confirmButton = TextButton(
       child: Text(
         "ลบ",
-        style: TextStyle(color: ThemeColors.info),
+        style: TextStyle(color: ThemeColors.secondary),
       ),
       onPressed: () {
         App.getUseCase<ChordFavoriteUseCase>(context, listen: false).delete(item.id);

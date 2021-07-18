@@ -42,6 +42,7 @@ class ChordRepository {
                 headers: {HttpHeaders.userAgentHeader: baseUserAgent})),
       ]);
 
+
       var chordTabRequest = request[0];
       var doChordRequest = request[1];
 

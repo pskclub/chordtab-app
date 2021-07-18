@@ -54,7 +54,7 @@ class _CollectionCreateDialogState extends State<CollectionCreateDialog> {
             TextButton(
               child: Text(
                 "สร้าง",
-                style: TextStyle(color: ThemeColors.info),
+                style: TextStyle(color: ThemeColors.secondary),
               ),
               onPressed: () {
                 setState(() {
