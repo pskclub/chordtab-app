@@ -163,7 +163,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
           onTap: () {
             _webViewController?.webViewController.evaluateJavascript('''
                 clearInterval(asint);
-                astart = 1.2;
+                astart = 1.4;
                 asint = window.setInterval(autoscroll, 200 / astart);
                 jQuery('#speed').html('1x');
                 jQuery('div#autoscroll').stop();
