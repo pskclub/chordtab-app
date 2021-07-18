@@ -36,6 +36,7 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
 
   @override
   void initState() {
+    if (!mounted) return;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       var chordUseCase = App.getUseCase<ChordUseCase>(context, listen: false);
       chordUseCase.addListener(() {
@@ -109,6 +110,9 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
                 _title,
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                softWrap: false,
               ),
               SizedBox(
                 height: 8,
