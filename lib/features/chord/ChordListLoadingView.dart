@@ -9,7 +9,7 @@ class ChordListLoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: 8,
+      itemCount: 20,
       itemBuilder: (BuildContext context, int index) => Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(

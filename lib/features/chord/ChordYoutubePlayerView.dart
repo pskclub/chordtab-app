@@ -88,129 +88,135 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Consumer<ChordUseCase>(
-          builder: (BuildContext context, chordUseCase, Widget? child) {
-            return StatusWrapper(
-              status: chordUseCase.findYoutubeResult,
-              body: YoutubePlayer(
-                controller: _youtubeController,
-                showVideoProgressIndicator: true,
-              ),
-            );
-          },
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 32,
-              ),
-              Text(
-                _title,
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.fade,
-                maxLines: 1,
-                softWrap: false,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                _author,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              LinearPercentIndicator(
-                width: MediaQuery.of(context).size.width - 64,
-                lineHeight: 4.0,
-                percent: _percent,
-                progressColor: ThemeColors.secondary,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Consumer<ChordUseCase>(
+            builder: (BuildContext context, chordUseCase, Widget? child) {
+              return StatusWrapper(
+                status: chordUseCase.findYoutubeResult,
+                body: YoutubePlayer(
+                  controller: _youtubeController,
+                  showVideoProgressIndicator: true,
+                  onEnded: (meta) {
+                    _youtubeController.seekTo(Duration(seconds: 0));
+                    _youtubeController.pause();
+                  },
+                ),
+              );
+            },
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 32,
+                ),
+                Text(
+                  _title,
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  softWrap: false,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  _author,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 64,
+                  lineHeight: 4.0,
+                  percent: _percent,
+                  progressColor: ThemeColors.secondary,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(_nowDuration),
+                      Text(_duration),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 38,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(_nowDuration),
-                    Text(_duration),
+                    ElevatedButton(
+                      onPressed: () {
+                        var sec = _youtubeController.value.position.inSeconds - 10;
+                        _youtubeController.seekTo(Duration(seconds: sec < 0 ? 0 : sec));
+                      },
+                      child: Icon(Icons.fast_rewind),
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(10),
+                        primary: ThemeColors.primaryLight, // <-- Button color
+                        onPrimary: Colors.grey, // <-- Splash color
+                      ),
+                    ),
+                    SizedBox(
+                      width: 24,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_isPlaying) {
+                          _youtubeController.pause();
+                        } else {
+                          _youtubeController.play();
+                        }
+                      },
+                      child: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(20),
+                        primary: ThemeColors.secondary, // <-- Button color
+                        onPrimary: Colors.white, // <-- Splash color
+                      ),
+                    ),
+                    SizedBox(
+                      width: 24,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        var sec = _youtubeController.value.position.inSeconds + 10;
+                        _youtubeController.seekTo(Duration(
+                            seconds: sec > _youtubeController.metadata.duration.inSeconds
+                                ? _youtubeController.metadata.duration.inSeconds
+                                : sec));
+                      },
+                      child: Icon(Icons.fast_forward),
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(10),
+                        primary: ThemeColors.primaryLight, // <-- Button color
+                        onPrimary: Colors.grey, // <-- Splash color
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 38,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      var sec = _youtubeController.value.position.inSeconds - 10;
-                      _youtubeController.seekTo(Duration(seconds: sec < 0 ? 0 : sec));
-                    },
-                    child: Icon(Icons.fast_rewind),
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(10),
-                      primary: ThemeColors.primaryLight, // <-- Button color
-                      onPrimary: Colors.grey, // <-- Splash color
-                    ),
-                  ),
-                  SizedBox(
-                    width: 24,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_isPlaying) {
-                        _youtubeController.pause();
-                      } else {
-                        _youtubeController.play();
-                      }
-                    },
-                    child: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(20),
-                      primary: ThemeColors.secondary, // <-- Button color
-                      onPrimary: Colors.white, // <-- Splash color
-                    ),
-                  ),
-                  SizedBox(
-                    width: 24,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      var sec = _youtubeController.value.position.inSeconds + 10;
-                      _youtubeController.seekTo(Duration(
-                          seconds: sec > _youtubeController.metadata.duration.inSeconds
-                              ? _youtubeController.metadata.duration.inSeconds
-                              : sec));
-                    },
-                    child: Icon(Icons.fast_forward),
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(10),
-                      primary: ThemeColors.primaryLight, // <-- Button color
-                      onPrimary: Colors.grey, // <-- Splash color
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

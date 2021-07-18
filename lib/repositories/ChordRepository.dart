@@ -132,6 +132,11 @@ class ChordRepository {
           if (title.contains("คอร์ดเพลง") &&
               !link.contains("artist") &&
               !link.contains("category") &&
+              !link.contains("easy_chord") &&
+              !link.contains("ตารางคอร์ดกีตาร์") &&
+              !link.contains("onlineguitar") &&
+              !link.contains("guitar-tuner") &&
+              !link.contains("เกี่ยวกับเรา") &&
               !link.contains("album") &&
               link != 'https://www.dochord.com/') {
             title = titleEle.text
@@ -140,6 +145,7 @@ class ChordRepository {
                 .replaceFirst("คอร์ดกีต้าร์ ", "")
                 .replaceFirst("เนื้อเพลง ", "")
                 .replaceFirst("เพลง ", "")
+                .replaceFirst(" | dochord ...", "")
                 .replaceFirst(" | dochord.com", "");
 
             list.add(ChordItemModel(
