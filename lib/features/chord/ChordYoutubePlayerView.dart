@@ -35,8 +35,14 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
   _ChordYoutubePlayerViewState({required this.chordModel});
 
   @override
+  void dispose() {
+    super.dispose();
+    _youtubeController.dispose();
+  }
+
+  @override
   void initState() {
-    if (!mounted) return;
+    super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       var chordUseCase = App.getUseCase<ChordUseCase>(context, listen: false);
       chordUseCase.addListener(() {
@@ -79,7 +85,6 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
       chordUseCase.findYoutube(chordModel.title);
     });
 
-    super.initState();
   }
 
   @override

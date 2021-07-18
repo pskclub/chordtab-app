@@ -2,6 +2,7 @@ import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/features/chord/ChordDetailView.dart';
 import 'package:chordtab/features/chord/ChordItemBottomSheet.dart';
 import 'package:chordtab/features/chord/ChordYoutubePlayerView.dart';
+import 'package:chordtab/features/chord/ChrodHowToView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,14 +28,34 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   _ChordSinglePageState({required this.chordModel});
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    List<Widget> tabBarList = [
+      ChordDetailView(
+        chordModel: chordModel,
+        onWebViewLoaded: (controller) {
+          _webViewController = controller;
+        },
+      ),
+      ChordYoutubePlayerView(
+        chordModel: chordModel,
+      )
+    ];
+
+    List<Widget> tabMenuList = [
+      Container(width: 60, height: 30, alignment: Alignment.center, child: Text("คอร์ด")),
+      Container(width: 60, height: 30, alignment: Alignment.center, child: Text("วิดีโอ"))
+    ];
+
+    if (chordModel.type == ChordItemType.chordTab) {
+      tabBarList.insert(1, ChordToView());
+      tabMenuList.insert(
+        1,
+        Container(width: 80, height: 30, alignment: Alignment.center, child: Text("วิธีจับคอร์ด")),
+      );
+    }
+
     return DefaultTabController(
-      length: 3,
+      length: chordModel.type == ChordItemType.doChord ? 2 : 3,
       initialIndex: 0,
       child: DefaultLayout(
         title: Text(chordModel.title),
@@ -70,11 +91,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
                         });
                       },
                       isScrollable: true,
-                      tabs: [
-                        Container(width: 60, height: 30, alignment: Alignment.center, child: Text("คอร์ด")),
-                        Container(width: 80, height: 30, alignment: Alignment.center, child: Text("วิธีจับคอร์ด")),
-                        Container(width: 60, height: 30, alignment: Alignment.center, child: Text("วิดีโอ"))
-                      ],
+                      tabs: tabMenuList,
                       labelColor: Colors.white,
                       indicator: RectangularIndicator(
                           bottomLeftRadius: 100,
@@ -89,13 +106,8 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             ),
             Expanded(
               child: TabBarView(
-                children: [
-                  ChordDetailView(chordModel: chordModel),
-                  Container(),
-                  ChordYoutubePlayerView(
-                    chordModel: chordModel,
-                  )
-                ],
+                physics: NeverScrollableScrollPhysics(),
+                children: tabBarList,
               ),
             ),
           ],

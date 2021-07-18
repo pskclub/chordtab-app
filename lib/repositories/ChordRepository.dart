@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:chordtab/core/Requester.dart';
@@ -15,19 +14,32 @@ class ChordRepository {
 
   Future<ChordItemModel> find(ChordItemModel chord) async {
     try {
+      var image = chord.image;
+      List<String> chordImages = [];
       var response = await Requester.get(chord.link,
           options: RequesterOptions(headers: {HttpHeaders.userAgentHeader: baseUserAgent}));
       var document = parse(response.toString());
-      var ele = document.querySelector('amp-img[layout="responsive"]');
-      if (ele != null) {
-        chord.image = baseChordTabAPI + '/' + ele.attributes['src'].toString().replaceFirst('.', '');
-        for (var item in document.querySelectorAll('.htmlchord')) {
-          chord.chordImages.add(baseChordTabAPI + item.attributes['src'].toString().replaceFirst('.', ''));
+
+      if (chord.type == ChordItemType.chordTab) {
+        var ele = document.querySelector('amp-img[layout="responsive"]');
+        if (ele != null) {
+          image = baseChordTabAPI + '/' + ele.attributes['src'].toString().replaceFirst('.', '');
+          for (var item in document.querySelectorAll('.htmlchord')) {
+            chordImages.add(baseChordTabAPI + item.attributes['src'].toString().replaceFirst('.', ''));
+          }
+        } else {
+          throw Exception(null);
         }
-        return chord;
-      } else {
-        throw Exception(null);
       }
+
+      return ChordItemModel(
+          id: chord.id,
+          type: chord.type,
+          image: image,
+          chordImages: chordImages,
+          title: chord.title,
+          cover: '',
+          link: chord.link);
     } on DioError catch (e) {
       throw e;
     }

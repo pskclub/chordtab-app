@@ -14,29 +14,32 @@ import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class ChordDetailView extends StatefulWidget {
   final ChordItemModel chordModel;
+  final Function(WebViewPlusController controller)? onWebViewLoaded;
 
-  const ChordDetailView({Key? key, required this.chordModel}) : super(key: key);
+  const ChordDetailView({Key? key, required this.chordModel, this.onWebViewLoaded}) : super(key: key);
 
   @override
-  _ChordDetailViewState createState() => _ChordDetailViewState(chordModel: chordModel);
+  _ChordDetailViewState createState() =>
+      _ChordDetailViewState(chordModel: chordModel, onWebViewLoaded: onWebViewLoaded);
 }
 
 class _ChordDetailViewState extends State<ChordDetailView> {
   final ChordItemModel chordModel;
+  final Function(WebViewPlusController controller)? onWebViewLoaded;
   WebViewPlusController? _webViewController;
   bool _webLoaded = false;
 
-  _ChordDetailViewState({required this.chordModel});
+  _ChordDetailViewState({required this.chordModel, this.onWebViewLoaded});
 
   @override
   void initState() {
+    super.initState();
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (chordModel.type == ChordItemType.chordTab) {
         App.getUseCase<ChordUseCase>(context, listen: false).find(chordModel);
       }
     });
-    super.initState();
   }
 
   @override
@@ -93,6 +96,7 @@ class _ChordDetailViewState extends State<ChordDetailView> {
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (controller) {
         _webViewController = controller;
+        onWebViewLoaded?.call(_webViewController!);
       },
       onPageFinished: (url) {
         _webViewController?.webViewController.evaluateJavascript('''     
