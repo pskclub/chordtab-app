@@ -34,7 +34,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       initialIndex: 0,
       child: DefaultLayout(
         title: Text(chordModel.title),
@@ -59,25 +59,31 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
               padding: EdgeInsets.only(bottom: 15),
               color: ThemeColors.primary,
               child: Center(
-                child: TabBar(
-                  onTap: (index) {
-                    setState(() {
-                      _pageIndex = index;
-                    });
-                  },
-                  isScrollable: true,
-                  tabs: [
-                    Container(width: 60, height: 30, alignment: Alignment.center, child: Text("คอร์ด")),
-                    // Container(width: 80, height: 30, alignment: Alignment.center, child: Text("วิธีจับคอร์ด")),
-                    Container(width: 60, height: 30, alignment: Alignment.center, child: Text("วิดีโอ"))
-                  ],
-                  labelColor: Colors.white,
-                  indicator: RectangularIndicator(
-                      bottomLeftRadius: 100,
-                      bottomRightRadius: 100,
-                      topLeftRadius: 100,
-                      topRightRadius: 100,
-                      color: ThemeColors.bg),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Container(
+                    color: ThemeColors.primaryDark,
+                    child: TabBar(
+                      onTap: (index) {
+                        setState(() {
+                          _pageIndex = index;
+                        });
+                      },
+                      isScrollable: true,
+                      tabs: [
+                        Container(width: 60, height: 30, alignment: Alignment.center, child: Text("คอร์ด")),
+                        Container(width: 80, height: 30, alignment: Alignment.center, child: Text("วิธีจับคอร์ด")),
+                        Container(width: 60, height: 30, alignment: Alignment.center, child: Text("วิดีโอ"))
+                      ],
+                      labelColor: Colors.white,
+                      indicator: RectangularIndicator(
+                          bottomLeftRadius: 100,
+                          bottomRightRadius: 100,
+                          topLeftRadius: 100,
+                          topRightRadius: 100,
+                          color: ThemeColors.bg2),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -85,6 +91,7 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
               child: TabBarView(
                 children: [
                   ChordDetailView(chordModel: chordModel),
+                  Container(),
                   ChordYoutubePlayerView(
                     chordModel: chordModel,
                   )

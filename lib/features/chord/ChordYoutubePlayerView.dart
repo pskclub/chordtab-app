@@ -123,7 +123,7 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 38,
+                height: 50,
               ),
               LinearPercentIndicator(
                 width: MediaQuery.of(context).size.width - 64,
