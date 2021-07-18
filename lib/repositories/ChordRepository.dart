@@ -9,22 +9,20 @@ import 'package:html/parser.dart';
 
 class ChordRepository {
   final String baseGoogleAPI = "https://www.google.co.th";
+  final String baseChordTabAPI = "https://chordtabs.in.th";
   final String baseUserAgent =
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36";
-  final String chordTabUserAgent =
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36";
 
   Future<ChordItemModel> find(ChordItemModel chord) async {
     try {
       var response = await Requester.get(chord.link,
-          options: RequesterOptions(
-              headers: {HttpHeaders.userAgentHeader: chordTabUserAgent}));
+          options: RequesterOptions(headers: {HttpHeaders.userAgentHeader: baseUserAgent}));
       var document = parse(response.toString());
       var ele = document.querySelector('amp-img[layout="responsive"]');
       if (ele != null) {
-        chord.image = 'https://chordtabs.in.th/' + ele.attributes['src'].toString().replaceFirst('.', '');
+        chord.image = baseChordTabAPI + '/' + ele.attributes['src'].toString().replaceFirst('.', '');
         for (var item in document.querySelectorAll('.htmlchord')) {
-          chord.chordImages.add('https://chordtabs.in.th' + item.attributes['src'].toString().replaceFirst('.', ''));
+          chord.chordImages.add(baseChordTabAPI + item.attributes['src'].toString().replaceFirst('.', ''));
         }
         return chord;
       } else {

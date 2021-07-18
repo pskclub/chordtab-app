@@ -53,6 +53,7 @@ class DefaultLayout extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
   final List<Widget>? appBarActions;
+  final double? appBarElevation;
 
   const DefaultLayout({
     Key? key,
@@ -61,6 +62,7 @@ class DefaultLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     this.appBarActions,
+    this.appBarElevation,
   }) : super(key: key);
 
   @override
@@ -70,6 +72,8 @@ class DefaultLayout extends StatelessWidget {
           ? AppBar(
               title: title,
               actions: appBarActions,
+              elevation: appBarElevation,
+              centerTitle: true,
             )
           : null,
       bottomNavigationBar: bottomNavigationBar,

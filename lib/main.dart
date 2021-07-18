@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "Prompt",
         backgroundColor: ThemeColors.primary,
         primaryColor: ThemeColors.primary,
+        accentColor: ThemeColors.secondary,
         dialogBackgroundColor: ThemeColors.primary,
         splashColor: ThemeColors.primary,
         scaffoldBackgroundColor: ThemeColors.bg,

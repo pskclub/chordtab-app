@@ -5,6 +5,7 @@ const int _themePrimaryValue = 0xFF182245;
 
 class ThemeColors {
   static Color primary = Color(_themePrimaryValue);
+  static Color primaryLight = Color(0xFF2E3858);
   static Color secondary = Color(0xFFF30294);
   static Color info = Color(0xFF00FFFC);
   static Color bg = Color(0xFF171E3B);
