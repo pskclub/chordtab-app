@@ -22,8 +22,6 @@ class ChordSinglePage extends StatefulWidget {
 class _ChordSinglePageState extends State<ChordSinglePage> {
   final ChordItemModel chordModel;
   WebViewPlusController? _webViewController;
-
-  List<Widget> _pageList = [];
   int _pageIndex = 0;
 
   _ChordSinglePageState({required this.chordModel});
@@ -31,7 +29,6 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
   @override
   void initState() {
     super.initState();
-    _pageList = [ChordDetailView(chordModel: chordModel), ChordYoutubePlayerView()];
   }
 
   @override
@@ -86,7 +83,12 @@ class _ChordSinglePageState extends State<ChordSinglePage> {
             ),
             Expanded(
               child: TabBarView(
-                children: [ChordDetailView(chordModel: chordModel), ChordYoutubePlayerView()],
+                children: [
+                  ChordDetailView(chordModel: chordModel),
+                  ChordYoutubePlayerView(
+                    chordModel: chordModel,
+                  )
+                ],
               ),
             ),
           ],

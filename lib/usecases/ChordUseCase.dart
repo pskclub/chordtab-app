@@ -1,5 +1,6 @@
 import 'package:chordtab/core/Status.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/models/YoutubeItemModel.dart';
 import 'package:chordtab/repositories/ChordRepository.dart';
 import 'package:chordtab/repositories/YoutubeRepository.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +12,7 @@ class ChordUseCase with ChangeNotifier {
   Map<String, StatusList<ChordItemModel>> _searchResult = {};
   CancelToken? _searchCancelToken;
   Status<ChordItemModel> findResult = Status();
-  Status<dynamic> findYoutubeResult = Status();
+  Status<YoutubeItemModel> findYoutubeResult = Status();
 
   StatusList<ChordItemModel> searchResult(String key) {
     if (!_searchResult.containsKey(key)) {
@@ -51,7 +52,7 @@ class ChordUseCase with ChangeNotifier {
     }
   }
 
-  Future<void> findYoutube(String q) async {
+  Future<void> findYoutube(String q, {Function(Status<YoutubeItemModel> result)? onSuccess}) async {
     findYoutubeResult.setLoading();
     notifyListeners();
     try {
@@ -60,6 +61,7 @@ class ChordUseCase with ChangeNotifier {
     } on DioError catch (e) {
       findYoutubeResult.setError(e);
       notifyListeners();
+      onSuccess?.call(findYoutubeResult);
     }
   }
 }

@@ -1,17 +1,23 @@
 import 'package:chordtab/constants/theme.const.dart';
+import 'package:chordtab/core/App.dart';
+import 'package:chordtab/models/ChordItemModel.dart';
+import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ChordYoutubePlayerView extends StatefulWidget {
-  const ChordYoutubePlayerView({Key? key}) : super(key: key);
+  final ChordItemModel chordModel;
+
+  const ChordYoutubePlayerView({Key? key, required this.chordModel}) : super(key: key);
 
   @override
-  _ChordYoutubePlayerViewState createState() => _ChordYoutubePlayerViewState();
+  _ChordYoutubePlayerViewState createState() => _ChordYoutubePlayerViewState(chordModel: chordModel);
 }
 
 class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
+  final ChordItemModel chordModel;
   String _title = '';
   String _author = '';
   bool _isPlaying = false;
@@ -19,13 +25,33 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
   String _duration = '0:00';
   String _nowDuration = '0:00';
   YoutubePlayerController _youtubeController = YoutubePlayerController(
-    initialVideoId: 'XuAdG3NjNH8',
     flags: YoutubePlayerFlags(
         autoPlay: true, mute: false, disableDragSeek: true, enableCaption: false, hideControls: true),
+    initialVideoId: '',
   );
+
+  _ChordYoutubePlayerViewState({required this.chordModel});
+
+  @override
+  void dispose() {
+    _youtubeController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      var chordUseCase = App.getUseCase<ChordUseCase>(context, listen: false);
+      chordUseCase.addListener(() {
+        var id = YoutubePlayer.convertUrlToId(chordUseCase.findYoutubeResult.data?.link ?? '') ?? '';
+        if (id.isNotEmpty && !_youtubeController.value.hasPlayed) {
+          _youtubeController.load(id);
+        }
+      });
+
+      chordUseCase.findYoutube(chordModel.title, onSuccess: (result) {});
+    });
+
     _youtubeController.addListener(() {
       setState(() {
         _title = _youtubeController.metadata.title;
