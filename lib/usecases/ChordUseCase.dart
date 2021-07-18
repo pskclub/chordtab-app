@@ -52,7 +52,7 @@ class ChordUseCase with ChangeNotifier {
     }
   }
 
-  Future<void> findYoutube(String q, {Function(Status<YoutubeItemModel> result)? onSuccess}) async {
+  Future<void> findYoutube(String q) async {
     findYoutubeResult.setLoading();
     notifyListeners();
     try {
@@ -61,7 +61,6 @@ class ChordUseCase with ChangeNotifier {
     } on DioError catch (e) {
       findYoutubeResult.setError(e);
       notifyListeners();
-      onSuccess?.call(findYoutubeResult);
     }
   }
 }

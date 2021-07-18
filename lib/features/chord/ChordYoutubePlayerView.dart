@@ -2,9 +2,11 @@ import 'package:chordtab/constants/theme.const.dart';
 import 'package:chordtab/core/App.dart';
 import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
+import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ChordYoutubePlayerView extends StatefulWidget {
@@ -26,17 +28,15 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
   String _nowDuration = '0:00';
   YoutubePlayerController _youtubeController = YoutubePlayerController(
     flags: YoutubePlayerFlags(
-        autoPlay: true, mute: false, disableDragSeek: true, enableCaption: false, hideControls: true),
+        autoPlay: true,
+        mute: false,
+        disableDragSeek: true,
+        enableCaption: false,
+        hideControls: true),
     initialVideoId: '',
   );
 
   _ChordYoutubePlayerViewState({required this.chordModel});
-
-  @override
-  void dispose() {
-    _youtubeController.dispose();
-    super.dispose();
-  }
 
   @override
   void initState() {
@@ -45,11 +45,18 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
       chordUseCase.addListener(() {
         var id = YoutubePlayer.convertUrlToId(chordUseCase.findYoutubeResult.data?.link ?? '') ?? '';
         if (id.isNotEmpty && !_youtubeController.value.hasPlayed) {
-          _youtubeController.load(id);
+          _youtubeController = YoutubePlayerController(
+            flags: YoutubePlayerFlags(
+                autoPlay: true,
+                mute: false,
+                disableDragSeek: true,
+                enableCaption: false,
+                hideControls: true),
+            initialVideoId: id,
+          );
         }
       });
-
-      chordUseCase.findYoutube(chordModel.title, onSuccess: (result) {});
+      chordUseCase.findYoutube(chordModel.title);
     });
 
     _youtubeController.addListener(() {
@@ -59,11 +66,15 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
         _isPlaying = _youtubeController.value.isPlaying;
         var durationSec = '${_youtubeController.metadata.duration.inSeconds.remainder(60)}';
         _duration =
-            '${_youtubeController.metadata.duration.inMinutes.remainder(60)}:${durationSec.length == 1 ? '0$durationSec' : durationSec}';
+        '${_youtubeController.metadata.duration.inMinutes.remainder(60)}:${durationSec.length == 1
+            ? '0$durationSec'
+            : durationSec}';
 
         var nowDurationSec = '${_youtubeController.value.position.inSeconds.remainder(60)}';
         _nowDuration =
-            '${_youtubeController.value.position.inMinutes.remainder(60)}:${nowDurationSec.length == 1 ? '0$nowDurationSec' : nowDurationSec}';
+        '${_youtubeController.value.position.inMinutes.remainder(60)}:${nowDurationSec.length == 1
+            ? '0$nowDurationSec'
+            : nowDurationSec}';
         var percent =
             ((100 * _youtubeController.value.position.inSeconds) / _youtubeController.metadata.duration.inSeconds) /
                 100;
@@ -86,9 +97,16 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        YoutubePlayer(
-          controller: _youtubeController,
-          showVideoProgressIndicator: true,
+        Consumer<ChordUseCase>(
+          builder: (BuildContext context, chordUseCase, Widget? child) {
+            return StatusWrapper(
+              status: chordUseCase.findYoutubeResult,
+              body: YoutubePlayer(
+                controller: _youtubeController,
+                showVideoProgressIndicator: true,
+              ),
+            );
+          },
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 32),
@@ -113,7 +131,10 @@ class _ChordYoutubePlayerViewState extends State<ChordYoutubePlayerView> {
                 height: 38,
               ),
               LinearPercentIndicator(
-                width: MediaQuery.of(context).size.width - 64,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 64,
                 lineHeight: 4.0,
                 percent: _percent,
                 progressColor: ThemeColors.secondary,
