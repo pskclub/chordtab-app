@@ -5,9 +5,14 @@ import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChordItemBottomSheet {
   static Future<void> build(BuildContext context, ChordItemModel item, Function onCollectionSelect) {
+    void _launchURL() async =>
+        await canLaunch(item.link) ? await launch(item.link) : throw 'Could not launch ${item.link}';
+
     var _buildBottomSheet = Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -25,6 +30,22 @@ class ChordItemBottomSheet {
             App.getUseCase<ChordFavoriteUseCase>(context, listen: false).add(item);
             Navigator.pop(context);
           },
+        ),
+        ListTile(
+          leading: new Icon(Icons.share),
+          title: new Text('แชร์คอร์ดให้เพื่อน'),
+          onTap: () {
+            Share.share('ดูคอร์ดเพลง ${item.title} ได้ที่ ${item.link}');
+          },
+        ),
+        ListTile(
+          leading: new Icon(Icons.public),
+          title: new Text(
+            'ไปที่ ${item.link}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          onTap: _launchURL,
         ),
       ],
     );
