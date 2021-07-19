@@ -50,6 +50,7 @@ dependencies:
   firebase_crashlytics: ^2.1.1
   share: ^2.0.4
   url_launcher: ^6.0.9
+  google_mobile_ads: ^0.13.2
 
 dev_dependencies:
   flutter_test:
