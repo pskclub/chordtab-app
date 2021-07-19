@@ -35,7 +35,7 @@ class ChordItemBottomSheet {
           leading: new Icon(Icons.share),
           title: new Text('แชร์คอร์ดให้เพื่อน'),
           onTap: () {
-            Share.share('ดูคอร์ดเพลง ${item.title} ได้ที่ ${item.link}');
+            Share.share('ดูคอร์ดเพลง ${item.title} ได้ที่ ${item.link} \nจากแอพ ChordTab');
           },
         ),
         ListTile(
