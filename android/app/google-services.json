@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "788777120846",
+    "project_id": "chordtab-app",
+    "storage_bucket": "chordtab-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788777120846:android:09e0187275ea2326da3f1f",
+        "android_client_info": {
+          "package_name": "com.mhalong.chordtab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788777120846-9igtu1he42g762p9fnvl0auu4o7l2vgf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIqN1ksXA52jRxKBTrGegtLHB-gPdXiog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788777120846-9igtu1he42g762p9fnvl0auu4o7l2vgf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

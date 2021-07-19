@@ -5,7 +5,6 @@ import 'package:chordtab/features/collection/EmptyChordCollectionView.dart';
 import 'package:chordtab/layouts/DefaultLayout.dart';
 import 'package:chordtab/models/ChordCollectionItemModel.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
-import 'package:chordtab/views/BottomNavigationBarView.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';

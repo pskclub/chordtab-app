@@ -1,4 +1,3 @@
-import 'package:chordtab/models/ChordItemModel.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:chordtab/views/StatusWrapper.dart';
 import 'package:extended_image/extended_image.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChordToView extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Padding(

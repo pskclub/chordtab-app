@@ -1,4 +1,4 @@
-package com.mhalong.chordtab.chordtab
+package com.mhalong.chordtab
 
 import io.flutter.embedding.android.FlutterActivity
 

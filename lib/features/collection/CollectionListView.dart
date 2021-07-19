@@ -3,7 +3,6 @@ import 'package:chordtab/core/App.dart';
 import 'package:chordtab/models/ChordCollectionItemModel.dart';
 import 'package:chordtab/pages/CollectionSinglePage.dart';
 import 'package:chordtab/usecases/ChordCollectionUseCase.dart';
-import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
