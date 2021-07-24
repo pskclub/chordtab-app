@@ -113,6 +113,7 @@ class _ChordDetailViewState extends State<ChordDetailView> {
                 #chord-img { display: none !important; } 
                 iframe { display: none !important; } 
                 #page { padding-bottom: 50px; padding-top :16px;} 
+                body > .ats-overlay-top-wrapper-rendered { display: none !important; } 
                 body > .ats-overlay-bottom-wrapper-rendered { display: none !important; } 
                 #truehits_div { display: none !important; } 
                 hr { display: none !important; } 

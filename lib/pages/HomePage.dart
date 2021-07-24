@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         body: Consumer<ChordUseCase>(builder: (BuildContext context, chordUseCase, Widget? child) {
           return _buildBody(chordUseCase);
         }),
-        title: Text("Chord Tab"),
+        title: Text("ChordTab คอร์ดเพลง คอร์ดกีตาร์"),
         bottomNavigationBar: BottomNavigationBarView());
   }
 

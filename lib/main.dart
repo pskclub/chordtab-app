@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'ChordTab',
+      title: 'ChordTab คอร์ดเพลง คอร์ดกีตาร์',
       theme: ThemeData(
         fontFamily: "Prompt",
         backgroundColor: ThemeColors.primary,
