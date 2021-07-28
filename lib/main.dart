@@ -10,30 +10,28 @@ import 'package:chordtab/usecases/ChordFavoriteUseCase.dart';
 import 'package:chordtab/usecases/ChordUseCase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/theme.const.dart';
 
-
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MobileAds.instance.initialize();
   await Firebase.initializeApp();
-  runZonedGuarded(() {
-    runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppUseCase()),
-        ChangeNotifierProvider(create: (_) => ChordUseCase()),
-        ChangeNotifierProvider(create: (_) => ChordFavoriteUseCase()),
-        ChangeNotifierProvider(create: (_) => ChordCollectionUseCase()),
-      ],
-      child: MyApp(),
-    ));
-  }, FirebaseCrashlytics.instance.recordError);
+  // MobileAds.instance.initialize();
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AppUseCase()),
+      ChangeNotifierProvider(create: (_) => ChordUseCase()),
+      ChangeNotifierProvider(create: (_) => ChordFavoriteUseCase()),
+      ChangeNotifierProvider(create: (_) => ChordCollectionUseCase()),
+    ],
+    child: runZonedGuarded(() {
+      return MyApp();
+    }, FirebaseCrashlytics.instance.recordError),
+  ));
 }
 
 class MyApp extends StatefulWidget {
