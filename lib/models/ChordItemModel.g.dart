@@ -11,6 +11,10 @@ ChordItemModel _$ChordItemModelFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     title: json['title'] as String,
     description: json['description'] as String?,
+    chordImages: (json['chordImages'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList() ??
+        [],
     image: json['image'] as String,
     type: _$enumDecode(_$ChordItemTypeEnumMap, json['type']),
     link: json['link'] as String,
@@ -27,6 +31,7 @@ Map<String, dynamic> _$ChordItemModelToJson(ChordItemModel instance) =>
       'link': instance.link,
       'type': _$ChordItemTypeEnumMap[instance.type],
       'image': instance.image,
+      'chordImages': instance.chordImages,
     };
 
 K _$enumDecode<K, V>(
