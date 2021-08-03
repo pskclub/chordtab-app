@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:wakelock/wakelock.dart';
 
 class ChordDetailView extends StatefulWidget {
   final ChordItemModel chordModel;
@@ -40,6 +41,13 @@ class _ChordDetailViewState extends State<ChordDetailView> {
         App.getUseCase<ChordUseCase>(context, listen: false).find(chordModel);
       }
     });
+    Wakelock.enable();
+  }
+
+  @override
+  void dispose() {
+    Wakelock.disable();
+    super.dispose();
   }
 
   @override
