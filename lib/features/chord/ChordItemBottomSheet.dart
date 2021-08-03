@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ChordItemBottomSheet {
   static Future<void> build(BuildContext context, ChordItemModel item, Function onCollectionSelect) {
     void _launchURL() async =>
-        await canLaunch(item.link) ? await launch(item.link, forceSafariVC: false) : throw 'Could not launch ${item.link}';
+        await canLaunch(item.link) ? await launch(item.link, forceSafariVC: true) : throw 'Could not launch ${item.link}';
 
     var _buildBottomSheet = Column(
       mainAxisSize: MainAxisSize.min,
